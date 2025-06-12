@@ -32,7 +32,7 @@ Analyze 25 security events and correctly classify each one as:
 ## Company Context
 
 You are analyzing events from **ACMECORP Inc.**, a technology consulting firm with:
-- 35 employees across 3 locations (New York, Austin, London)
+- 22 employees across 3 locations (New York, Austin, London)
 - Hybrid work model with remote access capabilities
 - Standard business applications and security policies
 
