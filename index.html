@@ -35,6 +35,16 @@
             overflow-y: auto;
             border: 1px solid var(--border-color);
         }
+
+        /* Remove the border line between stats and events */
+        .stats-bar {
+            background: #2d4663;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -60,7 +70,9 @@
                 
                 <div class="doc-section">
                     <h3>Company Overview</h3>
-                    <p><strong>ACMECORP Inc.</strong> is a mid-size technology consulting firm founded in 2010, specializing in digital transformation and cloud solutions. We employ 35 staff across 3 locations:</p>
+                    <p><strong>ACMECORP Inc.</strong> is a mid-size technology consulting firm founded in 2010, specializing in digital transformation and cloud solutions.</p>
+                    <br>
+                    <p>We employ 35 staff across 3 locations:</p>
                     <ul>
                         <li><strong>HQ:</strong> New York (20 employees) - Executive, Sales, Marketing, Finance</li>
                         <li><strong>Tech Hub:</strong> Austin (10 employees) - Development, DevOps, IT Operations</li>
@@ -76,7 +88,7 @@
                         <div class="policy-item">
                             <h4>Database Access</h4>
                             <ul>
-                                <li><span class="policy-allowed">✓</span> Database Admins (svc.backup, dba.smith)</li>
+                                <li><span class="policy-allowed">✓</span> Database Admins (svc.backup, steve.kumar)</li>
                                 <li><span class="policy-allowed">✓</span> Finance Team (customer billing data only)</li>
                                 <li><span class="policy-allowed">✓</span> HR Team (employee records only)</li>
                                 <li><span class="policy-denied">✗</span> Security Guards, Contractors, Interns</li>
