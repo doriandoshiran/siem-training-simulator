@@ -3,7 +3,7 @@ const eventTemplates = {
     malicious: [
         {
             eventType: 'Network Connection',
-            description: 'Outbound TCP connection to suspicious IP address',
+            description: 'Outbound TCP connection to external IP address',
             sourceIP: '192.168.1.157',
             destinationIP: '185.220.101.42',
             destination: '185.220.101.42:8080',
@@ -18,12 +18,12 @@ const eventTemplates = {
                 source_port: '49152',
                 destination_port: '8080',
                 process_name: 'chrome.exe',
-                threat_intel: 'IP associated with known malware C2 infrastructure'
+                raw_logs: '[2024-06-12 14:23:17] TCP connection established: 192.168.1.157:49152 -> 185.220.101.42:8080\n[2024-06-12 14:23:17] Process: chrome.exe (PID: 4892)\n[2024-06-12 14:27:40] Connection terminated by remote host'
             }
         },
         {
             eventType: 'File Download',
-            description: 'Executable file downloaded from untrusted domain',
+            description: 'Executable file downloaded from internet',
             sourceIP: '192.168.1.89',
             destinationIP: '94.232.47.156',
             destination: 'update-manager.com',
@@ -35,16 +35,16 @@ const eventTemplates = {
                 file_size: '2847264',
                 hash_md5: 'd41d8cd98f00b204e9800998ecf8427e',
                 hash_sha256: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-                download_url: 'hxxp://update-manager[.]com/downloads/system_update.exe',
+                download_url: 'http://update-manager.com/downloads/system_update.exe',
                 source_port: '443',
                 destination_port: '80',
                 user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-                domain_reputation: 'Recently registered domain (3 days old)'
+                raw_logs: '[2024-06-12 11:45:23] HTTP GET /downloads/system_update.exe\n[2024-06-12 11:45:23] User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\n[2024-06-12 11:45:24] File saved: C:\\Users\\john.thompson\\Downloads\\system_update.exe'
             }
         },
         {
             eventType: 'Database Access',
-            description: 'Unauthorized database query by security guard',
+            description: 'Database query executed by user',
             sourceIP: '192.168.1.188',
             destinationIP: '192.168.1.200',
             destination: 'DB-PROD-01.acmecorp.local',
@@ -59,12 +59,12 @@ const eventTemplates = {
                 destination_port: '1433',
                 table_accessed: 'employees',
                 records_returned: '47',
-                policy_violation: 'Security guards have no database access authorization'
+                raw_logs: '[2024-06-12 02:15:32] Database connection established\n[2024-06-12 02:15:32] Query executed: SELECT * FROM employees WHERE salary > 100000 AND department = "Finance"\n[2024-06-12 02:15:33] 47 records returned'
             }
         },
         {
             eventType: 'USB Device',
-            description: 'Unauthorized USB device connected by intern',
+            description: 'External storage device connected',
             sourceIP: '192.168.1.67',
             destinationIP: '192.168.1.67',
             destination: 'localhost',
@@ -80,13 +80,12 @@ const eventTemplates = {
                 source_port: 'USB3',
                 destination_port: 'USB3',
                 files_accessed: '247',
-                policy_violation: 'Interns not authorized for USB device usage',
-                device_encryption: 'None detected'
+                raw_logs: '[2024-06-12 09:33:12] USB device connected: VID_1234&PID_5678\n[2024-06-12 09:33:13] Device mounted as drive F:\n[2024-06-12 09:33:15] File access began'
             }
         },
         {
             eventType: 'Web Request',
-            description: 'Cryptocurrency mining pool connection attempt',
+            description: 'HTTPS connection to external service',
             sourceIP: '192.168.1.178',
             destinationIP: '198.12.75.112',
             destination: 'bitcoinminer.best',
@@ -94,19 +93,19 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-IT-05',
                 username: 'ACMECORP\\david.wilson',
-                url: 'hxxps://bitcoinminer[.]best/api/v2/pool/connect',
+                url: 'https://bitcoinminer.best/api/v2/pool/connect',
                 method: 'POST',
                 status_code: '200',
                 user_agent: 'Stratum/1.6.0',
                 source_port: '49876',
                 destination_port: '443',
                 payload_data: 'mining.subscribe worker credentials',
-                policy_violation: 'Cryptocurrency mining explicitly prohibited'
+                raw_logs: '[2024-06-12 16:45:01] HTTPS POST to bitcoinminer.best/api/v2/pool/connect\n[2024-06-12 16:45:02] Response: 200 OK\n[2024-06-12 16:45:02] Data transfer initiated'
             }
         },
         {
             eventType: 'Email Attachment',
-            description: 'Suspicious double-extension file in email',
+            description: 'Email attachment downloaded and executed',
             sourceIP: '192.168.1.67',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
@@ -122,12 +121,12 @@ const eventTemplates = {
                 source_port: '25',
                 destination_port: '25',
                 email_subject: 'URGENT: Outstanding Invoice Payment Required',
-                virus_total_detection: '15/67 engines flagged as malicious'
+                raw_logs: '[2024-06-12 10:22:15] Email received from billing@totally-legitimate-company.org\n[2024-06-12 10:22:16] Attachment saved: invoice_march_2024.pdf.exe\n[2024-06-12 10:22:18] File executed by user'
             }
         },
         {
             eventType: 'DNS Query',
-            description: 'Multiple DNS queries to suspected C2 domain',
+            description: 'Multiple DNS queries to external domain',
             sourceIP: '192.168.1.203',
             destinationIP: '45.61.136.207',
             destination: 'cmd-and-control.tk',
@@ -141,376 +140,204 @@ const eventTemplates = {
                 domain: 'cmd-and-control.tk',
                 source_port: '53',
                 destination_port: '53',
-                domain_age: '3 days',
-                threat_intel: 'Known C2 infrastructure from threat feeds',
-                dns_tunneling_indicators: 'Unusual query patterns detected'
+                raw_logs: '[2024-06-12 13:15:22] DNS query: cmd-and-control.tk (A record)\n[2024-06-12 13:15:23] Response: 45.61.136.207\n[2024-06-12 13:15:25] DNS query: cmd-and-control.tk (A record)'
             }
         },
         {
-            eventType: 'Administrative Access',
-            description: 'External administrator login from foreign country',
-            sourceIP: '203.0.113.89',
-            destinationIP: '192.168.1.10',
-            destination: 'DC-PROD-01.acmecorp.local',
-            severity: 'critical',
-            details: {
-                username: 'ACMECORP\\administrator',
-                login_source: 'External IP address',
-                access_time: '03:22:45',
-                authentication_method: 'NTLM',
-                source_country: 'Romania',
-                source_port: '3389',
-                destination_port: '3389',
-                session_duration: '00:08:15',
-                geolocation: 'Bucharest, Romania',
-                previous_login: 'New York office (6 hours ago)',
-                impossible_travel: 'Yes - travel time violation'
-            }
-        },
-        {
-            eventType: 'Data Exfiltration',
-            description: 'Large file transfer to personal cloud storage',
-            sourceIP: '192.168.1.145',
-            destinationIP: '157.240.12.35',
-            destination: 'personal-dropbox.com',
-            severity: 'critical',
-            details: {
-                hostname: 'WS-FINANCE-09',
-                username: 'ACMECORP\\jennifer.brown',
-                bytes_transferred: '567891234',
-                transfer_duration: '00:45:12',
-                files_uploaded: '127',
-                encryption: 'none',
-                source_port: '443',
-                destination_port: '443',
-                file_types: 'xlsx,pdf,docx (financial records)',
-                policy_violation: 'Personal cloud storage strictly prohibited'
-            }
-        },
-        {
-            eventType: 'Process Execution',
-            description: 'Suspicious PowerShell execution with encoded command',
-            sourceIP: '192.168.1.112',
-            destinationIP: '192.168.1.112',
-            destination: 'localhost',
-            severity: 'high',
-            details: {
-                hostname: 'WS-SALES-08',
-                username: 'ACMECORP\\jennifer.davis',
-                process_name: 'powershell.exe',
-                command_line: 'powershell.exe -WindowStyle Hidden -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0AC4ALgAuAA==',
-                parent_process: 'winword.exe',
-                file_hash: '44d88612fea8a8f36de82e1278abb02f',
-                source_port: 'local',
-                destination_port: 'local',
-                decoded_command: 'Invoke-WebRequest to external malicious URL',
-                execution_policy: 'Bypass'
-            }
-        },
-        {
-            eventType: 'Network Scanner',
-            description: 'External port scanning targeting internal network',
-            sourceIP: '203.0.113.45',
-            destinationIP: '192.168.1.0',
-            destination: '192.168.1.0/24',
-            severity: 'high',
-            details: {
-                external_ip: '203.0.113.45',
-                target_network: '192.168.1.0/24',
-                ports_scanned: '22,23,80,135,139,443,445,3389,5900',
-                scan_type: 'TCP_SYN_Scan',
-                packets_sent: '1847',
-                source_country: 'Russia',
-                source_port: 'random_high_ports',
-                destination_port: 'multiple_targets',
-                scan_duration: '00:15:43',
-                open_ports_found: '80,443,3389'
-            }
-        },
-        {
-            eventType: 'Privilege Escalation',
-            description: 'Unauthorized privilege escalation attempt detected',
-            sourceIP: '192.168.1.143',
-            destinationIP: '192.168.1.10',
-            destination: 'DC-PROD-01.acmecorp.local',
-            severity: 'critical',
-            details: {
-                hostname: 'WS-GUEST-KIOSK',
-                username: 'ACMECORP\\joshua.phillips',
-                target_privilege: 'SeDebugPrivilege',
-                method: 'Token_Manipulation_Attack',
-                process: 'explorer.exe',
-                target_user: 'ACMECORP\\administrator',
-                source_port: 'local_process',
-                destination_port: 'local_process',
-                technique: 'Process token duplication exploit',
-                success_status: 'Failed - Access Denied by EDR'
-            }
-        },
-        {
-            eventType: 'Malware Detection',
-            description: 'Banking Trojan detected in system memory',
-            sourceIP: '192.168.1.156',
-            destinationIP: '192.168.1.156',
-            destination: 'localhost',
-            severity: 'critical',
-            details: {
-                hostname: 'WS-ACCOUNTING-04',
-                username: 'ACMECORP\\robert.garcia',
-                malware_family: 'Emotet.Banking_Trojan',
-                detection_method: 'Behavioral_Analysis_Engine',
-                process_name: 'svchost.exe',
-                process_id: '2847',
-                parent_process: 'winword.exe',
-                source_port: 'local_process',
-                destination_port: 'local_process',
-                infection_vector: 'Malicious email attachment macro',
-                quarantine_status: 'Successfully isolated and quarantined'
-            }
-        },
-        {
-            eventType: 'Lateral Movement',
-            description: 'Suspicious SMB lateral movement detected',
+            eventType: 'Physical Access',
+            description: 'Badge access to secure area',
             sourceIP: '192.168.1.99',
-            destinationIP: '192.168.1.205',
-            destination: 'WS-FINANCE-15.acmecorp.local',
-            severity: 'high',
+            destinationIP: '192.168.1.210',
+            destination: 'ACCESS-CONTROL-01',
+            severity: 'medium',
             details: {
-                hostname: 'WS-TEMP-CONTRACTOR',
-                username: 'ACMECORP\\temp_contractor_001',
-                protocol: 'SMB',
-                service: 'ADMIN$',
-                access_type: 'Administrative_Share',
-                source_port: '445',
-                destination_port: '445',
-                authentication_method: 'NTLM_Pass_the_Hash',
-                policy_violation: 'Contractors forbidden from accessing other workstations',
-                credential_reuse: 'Detected - same hash used on multiple systems'
+                badge_id: 'BADGE-7789',
+                username: 'ACMECORP\\mark.stevens',
+                access_point: 'SERVER_ROOM_A',
+                access_time: '23:45:17',
+                door_status: 'OPENED',
+                duration: '00:17:23',
+                location: 'New York HQ - Floor 3',
+                raw_logs: '[2024-06-12 23:45:17] Badge scan: BADGE-7789 at SERVER_ROOM_A\n[2024-06-12 23:45:17] Access granted\n[2024-06-12 00:02:40] Door secured'
             }
         }
     ],
     falsePositive: [
         {
-            eventType: 'Software Update',
-            description: 'Microsoft Windows security update installation',
-            sourceIP: '192.168.1.45',
+            eventType: 'Network Connection',
+            description: 'HTTPS connection to Microsoft update servers',
+            sourceIP: '192.168.1.156',
             destinationIP: '13.107.42.14',
-            destination: 'download.microsoft.com',
+            destination: 'download.windowsupdate.com',
             severity: 'low',
             details: {
-                hostname: 'WS-EXECUTIVE-01',
-                username: 'ACMECORP\\james.wilson',
-                filename: 'windows-update-kb4023057.msu',
-                file_size: '15728640',
-                hash_md5: 'b4c1d9c6ef5a2e8f7a3d9b8c5e4f1a2b',
-                hash_sha256: '6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d',
-                download_url: 'https://download.microsoft.com/updates/kb4023057.msu',
+                hostname: 'WS-ACCOUNTING-04',
+                username: 'ACMECORP\\jennifer.white',
+                protocol: 'HTTPS',
+                bytes_sent: '2847',
+                bytes_received: '15629384',
+                duration: '00:12:45',
                 source_port: '443',
                 destination_port: '443',
-                digital_signature: 'Valid Microsoft Corporation certificate',
-                update_category: 'Critical Security Updates'
+                process_name: 'svchost.exe',
+                raw_logs: '[2024-06-12 09:15:30] Windows Update: Downloading KB5034441\n[2024-06-12 09:15:31] HTTPS connection to download.windowsupdate.com\n[2024-06-12 09:28:15] Download completed successfully'
             }
         },
         {
-            eventType: 'Database Backup',
-            description: 'Scheduled automated database backup operation',
-            sourceIP: '192.168.1.200',
-            destinationIP: '192.168.1.210',
-            destination: 'BACKUP-SRV-01.acmecorp.local',
+            eventType: 'Database Access',
+            description: 'Automated backup process accessing database',
+            sourceIP: '192.168.1.205',
+            destinationIP: '192.168.1.200',
+            destination: 'DB-PROD-01.acmecorp.local',
             severity: 'low',
             details: {
-                hostname: 'DB-PROD-01',
+                hostname: 'BACKUP-SRV-01',
                 username: 'ACMECORP\\svc.backup',
                 database: 'employee_records',
-                backup_size: '2847264000',
-                backup_location: '\\\\BACKUP-SRV-01\\db_backups\\daily\\',
-                scheduled_task: 'Daily_DB_Backup_02:00_AM',
+                query: 'BACKUP DATABASE employee_records TO DISK',
+                access_time: '02:00:15',
                 source_port: '1433',
                 destination_port: '1433',
-                backup_type: 'Full_Database_Backup',
-                completion_status: 'Successful - No errors'
+                backup_size: '2847392KB',
+                raw_logs: '[2024-06-12 02:00:15] Scheduled backup job initiated\n[2024-06-12 02:00:16] Backing up database: employee_records\n[2024-06-12 02:15:42] Backup completed successfully'
             }
         },
         {
-            eventType: 'VPN Connection',
-            description: 'Authorized remote access via corporate VPN',
-            sourceIP: '78.47.162.89',
-            destinationIP: '198.51.100.10',
-            destination: 'vpn.acmecorp.com',
-            severity: 'low',
-            details: {
-                external_ip: '78.47.162.89',
-                username: 'ACMECORP\\nicole.baker',
-                connection_duration: '08:15:32',
-                bytes_transferred: '847291648',
-                client_version: 'OpenVPN_2.5.7_official',
-                certificate_valid: 'Valid corporate certificate',
-                source_port: '1194',
-                destination_port: '1194',
-                vpn_server: 'Corporate_VPN_Primary_Gateway',
-                authentication_method: 'Certificate_and_Username_Password'
-            }
-        },
-        {
-            eventType: 'Antivirus Scan',
-            description: 'Scheduled full system antivirus scan completed',
-            sourceIP: '192.168.1.155',
-            destinationIP: '192.168.1.155',
+            eventType: 'USB Device',
+            description: 'Corporate USB device connected by IT administrator',
+            sourceIP: '192.168.1.98',
+            destinationIP: '192.168.1.98',
             destination: 'localhost',
             severity: 'low',
             details: {
-                hostname: 'WS-RESEARCH-09',
-                username: 'ACMECORP\\tyler.jones',
-                scan_type: 'Full_System_Scan',
-                files_scanned: '287451',
-                threats_found: '0',
-                scan_duration: '02:34:17',
-                engine_version: 'Windows_Defender_1.381.2140.0',
-                source_port: 'local_service',
-                destination_port: 'local_service',
-                last_definition_update: '2024-06-05_06:00:00_UTC'
+                hostname: 'WS-IT-01',
+                username: 'ACMECORP\\admin.rogers',
+                device_type: 'USB_Mass_Storage',
+                vendor_id: '0x13FE',
+                product_id: '0x4200',
+                serial_number: 'IK123456789',
+                device_name: 'IronKey Secure USB 3.0',
+                source_port: 'USB3',
+                destination_port: 'USB3',
+                files_accessed: '12',
+                raw_logs: '[2024-06-12 14:22:10] IronKey device connected\n[2024-06-12 14:22:11] Device authenticated successfully\n[2024-06-12 14:22:12] Administrative tools copied'
             }
         },
         {
-            eventType: 'System Monitoring',
-            description: 'DataDog monitoring agent automatic update',
-            sourceIP: '192.168.1.188',
-            destinationIP: '104.18.34.243',
-            destination: 'monitoring.datadog.com',
-            severity: 'low',
-            details: {
-                hostname: 'WS-ANALYTICS-15',
-                username: 'ACMECORP\\michelle.king',
-                agent_version: 'datadog_agent_v2.14.7',
-                update_size: '8847264',
-                signature_valid: 'Valid_Datadog_Inc_Certificate',
-                certificate: 'CN=Datadog_Inc_O=Datadog_Inc',
-                source_port: '443',
-                destination_port: '443',
-                service_name: 'Approved_Corporate_Monitoring_Solution',
-                auto_update_policy: 'Enabled_and_Authorized'
-            }
-        },
-        {
-            eventType: 'Patch Installation',
-            description: 'WSUS security patch deployment completed',
-            sourceIP: '192.168.1.77',
-            destinationIP: '192.168.1.251',
-            destination: 'WSUS-SRV-01.acmecorp.local',
-            severity: 'low',
-            details: {
-                hostname: 'WS-SUPPORT-13',
-                username: 'ACMECORP\\ashley.adams',
-                patch_id: 'KB5028166_Security_Update',
-                category: 'Critical_Security_Updates',
-                install_status: 'Successfully_Installed',
-                reboot_required: 'No_Reboot_Needed',
-                source_port: '80',
-                destination_port: '8530',
-                wsus_server: 'Corporate_Patch_Management_System',
-                deployment_group: 'IT_Workstations_Production'
-            }
-        },
-        {
-            eventType: 'File Synchronization',
-            description: 'OneDrive for Business automatic file sync',
+            eventType: 'Email Attachment',
+            description: 'PDF document downloaded from corporate partner',
             sourceIP: '192.168.1.145',
-            destinationIP: '40.126.31.192',
-            destination: 'onedrive.live.com',
-            severity: 'low',
-            details: {
-                hostname: 'WS-DESIGN-07',
-                username: 'ACMECORP\\rachel.hill',
-                sync_folder: 'Corporate_Documents_Folder',
-                files_synced: '47',
-                bytes_uploaded: '23847264',
-                user_account: 'rachel.hill@acmecorp.com',
-                source_port: '443',
-                destination_port: '443',
-                tenant_id: 'acmecorp.onmicrosoft.com',
-                sync_type: 'Corporate_OneDrive_Business_Account'
-            }
-        },
-        {
-            eventType: 'Print Job',
-            description: 'Secure document printing to network printer',
-            sourceIP: '192.168.1.92',
-            destinationIP: '192.168.1.210',
-            destination: 'PRINTER-01.acmecorp.local',
-            severity: 'low',
-            details: {
-                hostname: 'WS-FINANCE-03',
-                username: 'ACMECORP\\john.thompson',
-                document_name: 'Q4_Financial_Report_CONFIDENTIAL.pdf',
-                pages: '24',
-                printer: 'HP_LaserJet_Pro_Floor2_Secure',
-                job_size: '2847264',
-                source_port: '9100',
-                destination_port: '9100',
-                print_queue: 'Finance_Secure_Print_Queue',
-                color_mode: 'Monochrome_Duplex'
-            }
-        },
-        {
-            eventType: 'Email Send',
-            description: 'Business proposal email sent to external client',
-            sourceIP: '192.168.1.156',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
             severity: 'low',
             details: {
-                hostname: 'WS-SALES-12',
-                username: 'ACMECORP\\christopher.lee',
-                recipient: 'procurement@partnercorp.com',
-                subject: 'Q1_2024_Business_Partnership_Proposal',
-                attachment_count: '3',
-                message_size: '847264',
+                hostname: 'WS-SALES-08',
+                username: 'ACMECORP\\robert.kim',
+                filename: 'contract_2024_Q2.pdf',
+                file_size: '847392',
+                hash_md5: 'c4ca4238a0b923820dcc509a6f75849b',
+                hash_sha256: 'e258d248fda94c63753607f7c4494ee0fcbe92f1a76bfdac795c9d84101eb317',
+                sender: 'legal@techpartner.com',
                 source_port: '25',
                 destination_port: '25',
-                dkim_signature: 'Valid_ACMECORP_Signature',
-                spam_score: '0.1_Clean_Email'
+                email_subject: 'Q2 Partnership Agreement - Final Draft',
+                raw_logs: '[2024-06-12 11:30:22] Email from known partner: legal@techpartner.com\n[2024-06-12 11:30:23] PDF attachment scanned - clean\n[2024-06-12 11:30:24] Document opened in Adobe Reader'
             }
         },
         {
-            eventType: 'Certificate Renewal',
-            description: 'Let\'s Encrypt SSL certificate auto-renewal',
-            sourceIP: '192.168.1.250',
-            destinationIP: '172.65.32.183',
-            destination: 'acme-v02.api.letsencrypt.org',
+            eventType: 'Web Request',
+            description: 'Access to company cloud storage service',
+            sourceIP: '192.168.1.87',
+            destinationIP: '52.97.145.162',
+            destination: 'acmecorp.sharepoint.com',
             severity: 'low',
             details: {
-                hostname: 'MAIL-SRV-01',
-                username: 'ACMECORP\\svc.certificates',
-                domain: 'mail.acmecorp.com',
-                certificate_authority: 'Lets_Encrypt_Authority_X3',
-                validity_period: '90_days_standard',
-                renewal_status: 'Successfully_Renewed',
+                hostname: 'WS-MARKETING-03',
+                username: 'ACMECORP\\amanda.taylor',
+                url: 'https://acmecorp.sharepoint.com/sites/marketing/documents',
+                method: 'GET',
+                status_code: '200',
+                user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
                 source_port: '443',
                 destination_port: '443',
-                old_cert_expiry: '2024-06-08_23:59:59',
-                new_cert_expiry: '2024-09-06_23:59:59'
+                raw_logs: '[2024-06-12 15:20:15] SharePoint access: marketing documents\n[2024-06-12 15:20:16] Authentication successful\n[2024-06-12 15:20:17] File list retrieved'
             }
         },
         {
-            eventType: 'Approved USB Device',
-            description: 'Corporate encrypted USB device authorized connection',
-            sourceIP: '192.168.1.88',
-            destinationIP: '192.168.1.88',
-            destination: 'localhost',
+            eventType: 'Network Connection',
+            description: 'VPN connection from authorized remote worker',
+            sourceIP: '203.0.113.45',
+            destinationIP: '198.51.100.10',
+            destination: 'vpn.acmecorp.com',
             severity: 'low',
             details: {
-                hostname: 'WS-EXECUTIVE-02',
-                username: 'ACMECORP\\james.wilson',
-                device_type: 'USB_Mass_Storage_Encrypted',
-                vendor_id: '0x13FE',
-                product_id: '0x4200',
-                serial_number: 'IK-SEC-CORP-001122334455',
-                device_name: 'IronKey_Secure_USB_Corporate',
-                source_port: 'USB3_Port',
-                destination_port: 'USB3_Port',
-                files_accessed: '12',
-                device_encryption: 'AES-256_Hardware_Encrypted',
-                approval_status: 'Pre-approved_Executive_Device'
+                external_ip: '203.0.113.45',
+                username: 'ACMECORP\\peter.johnson',
+                protocol: 'OpenVPN',
+                vpn_server: 'vpn.acmecorp.com',
+                connection_time: '08:30:22',
+                duration: '08:15:33',
+                bytes_sent: '15847392',
+                bytes_received: '8472915',
+                location: 'Austin, TX',
+                raw_logs: '[2024-06-12 08:30:22] VPN connection request from 203.0.113.45\n[2024-06-12 08:30:23] Certificate authentication successful\n[2024-06-12 08:30:24] Tunnel established'
+            }
+        },
+        {
+            eventType: 'File Download',
+            description: 'Software update download from vendor website',
+            sourceIP: '192.168.1.123',
+            destinationIP: '151.101.193.140',
+            destination: 'download.adobe.com',
+            severity: 'low',
+            details: {
+                hostname: 'WS-DESIGN-02',
+                username: 'ACMECORP\\creative.team',
+                filename: 'AdobeCreativeCloud_Installer.exe',
+                file_size: '4629384',
+                hash_md5: 'b026324c6904b2a9cb4b88d6d61c81d1',
+                hash_sha256: '26ab0db90d72e28ad0ba1e22ee510510d927d5a0c8c5e09eff1b45d6fae0a0f1',
+                download_url: 'https://download.adobe.com/pub/adobe/creativesuite/CS6/AdobeCreativeCloud_Installer.exe',
+                source_port: '443',
+                destination_port: '443',
+                raw_logs: '[2024-06-12 13:45:10] Adobe Creative Cloud update available\n[2024-06-12 13:45:11] Downloading from official Adobe servers\n[2024-06-12 13:52:33] Download verified and completed'
+            }
+        },
+        {
+            eventType: 'Physical Access',
+            description: 'Employee badge access during business hours',
+            sourceIP: '192.168.1.99',
+            destinationIP: '192.168.1.210',
+            destination: 'ACCESS-CONTROL-01',
+            severity: 'low',
+            details: {
+                badge_id: 'BADGE-1234',
+                username: 'ACMECORP\\sarah.martinez',
+                access_point: 'MAIN_ENTRANCE',
+                access_time: '08:15:42',
+                door_status: 'OPENED',
+                duration: '00:00:03',
+                location: 'New York HQ - Ground Floor',
+                raw_logs: '[2024-06-12 08:15:42] Badge scan: BADGE-1234 at MAIN_ENTRANCE\n[2024-06-12 08:15:42] Access granted - business hours\n[2024-06-12 08:15:45] Door secured'
+            }
+        },
+        {
+            eventType: 'DNS Query',
+            description: 'DNS resolution for corporate email server',
+            sourceIP: '192.168.1.78',
+            destinationIP: '192.168.1.15',
+            destination: 'mail.acmecorp.local',
+            severity: 'low',
+            details: {
+                hostname: 'WS-FINANCE-05',
+                username: 'ACMECORP\\accounting.dept',
+                query_type: 'A',
+                response_ip: '192.168.1.250',
+                query_count: '3',
+                domain: 'mail.acmecorp.local',
+                source_port: '53',
+                destination_port: '53',
+                raw_logs: '[2024-06-12 09:05:15] DNS query: mail.acmecorp.local (A record)\n[2024-06-12 09:05:15] Response: 192.168.1.250\n[2024-06-12 09:05:16] Outlook connection established'
             }
         }
     ]
