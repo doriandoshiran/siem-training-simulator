@@ -123,7 +123,6 @@ body {
     background: #2d4663;
     padding: 25px;
     border-radius: 8px;
-    /* REMOVED: border-bottom: 1px solid #3a5a7a; */
 }
 
 .doc-section h3 {
@@ -276,7 +275,7 @@ body {
     background: #45a049;
 }
 
-/* Content Area */
+/* IMPROVED LAYOUT - Content Area */
 .content-area {
     display: flex;
     flex: 1;
@@ -284,7 +283,7 @@ body {
 }
 
 .events-list {
-    width: 70%;
+    width: 55%; /* Reduced from 70% to make room for wider details panel */
     background: #1a2332;
     border-right: 1px solid #3a5a7a;
     display: flex;
@@ -360,24 +359,31 @@ body {
     font-weight: bold;
 }
 
+/* IMPROVED EVENT DETAILS PANEL */
 .event-details-panel {
-    width: 30%;
+    width: 45%; /* Increased from 30% to 45% */
     background: #2d4663;
-    padding: 25px;
-    overflow-y: auto;
-    max-height: calc(100vh - 150px);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .event-details-panel.empty {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     color: #a0c4e0;
     font-style: italic;
-    text-align: left;
-    padding-top: 40px;
+    text-align: center;
+    padding: 40px;
+}
+
+/* SCROLLABLE CONTENT AREA */
+.event-details-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    max-height: calc(100vh - 150px);
 }
 
 .event-header {
@@ -444,8 +450,16 @@ body {
     box-shadow: none;
 }
 
+/* TWO-COLUMN FIELD LAYOUT */
+.fields-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
 .field-group {
-    margin-bottom: 18px;
+    margin-bottom: 0; /* Reset since we're using grid gap */
 }
 
 .field-label {
@@ -465,18 +479,92 @@ body {
     border: 1px solid #3a5a7a;
 }
 
+/* FULL-WIDTH FIELDS (for longer content) */
+.field-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* RAW DATA SECTION - Moved to a collapsible area */
+.raw-data-section {
+    margin-top: 20px;
+    border: 1px solid #3a5a7a;
+    border-radius: 6px;
+    background: #1a2332;
+}
+
+.raw-data-header {
+    background: #2d4663;
+    padding: 12px 15px;
+    border-bottom: 1px solid #3a5a7a;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.raw-data-header:hover {
+    background: #3a5a7a;
+}
+
+.raw-data-toggle {
+    font-size: 12px;
+    color: #a0c4e0;
+}
+
+.raw-data-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.raw-data-content.expanded {
+    max-height: 300px;
+}
+
 .event-raw-data {
     background: #1a2332;
     padding: 15px;
-    border-radius: 4px;
     font-family: 'Courier New', monospace;
     font-size: 11px;
-    margin-top: 20px;
-    max-height: 250px;
-    overflow-y: auto;
-    border: 1px solid #3a5a7a;
     white-space: pre-wrap;
     word-wrap: break-word;
+    overflow-y: auto;
+    max-height: 250px;
+}
+
+.investigation-tools {
+    background: #1a2332;
+    padding: 18px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border: 1px solid #3a5a7a;
+}
+
+.investigation-tools h4 {
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.tool-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.tool-link {
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 11px;
+    padding: 8px 10px;
+    background: #2d4663;
+    border-radius: 4px;
+    transition: background 0.2s;
+    text-align: center;
+}
+
+.tool-link:hover {
+    background: #3a5a7a;
 }
 
 .results-modal {
@@ -568,39 +656,6 @@ body {
     color: white; 
 }
 
-.investigation-tools {
-    background: #1a2332;
-    padding: 18px;
-    border-radius: 6px;
-    margin-top: 25px;
-    border: 1px solid #3a5a7a;
-}
-
-.investigation-tools h4 {
-    margin-bottom: 12px;
-    color: #ffffff;
-}
-
-.tool-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.tool-link {
-    color: #4CAF50;
-    text-decoration: none;
-    font-size: 12px;
-    padding: 6px 10px;
-    background: #2d4663;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.tool-link:hover {
-    background: #3a5a7a;
-}
-
 .selectable-text {
     background: #3a5a7a;
     padding: 3px 6px;
@@ -650,4 +705,34 @@ body {
     color: #e53e3e;
     font-weight: bold;
     margin-right: 8px;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+    .events-list {
+        width: 50%;
+    }
+    
+    .event-details-panel {
+        width: 50%;
+    }
+    
+    .fields-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .tool-links {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-area {
+        flex-direction: column;
+    }
+    
+    .events-list,
+    .event-details-panel {
+        width: 100%;
+    }
 }

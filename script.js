@@ -254,27 +254,46 @@ function selectEvent(eventId) {
         hour12: false
     }).replace(',', '');
 
+    // Create the improved layout HTML
     let detailsHTML = `
-        <div class="event-header">
-            <div class="event-title">${event.description}</div>
-            <div class="event-meta">Severity: ${event.severity.toUpperCase()} | Type: ${event.eventType} | ${formattedTimestamp}</div>
-        </div>
+        <div class="event-details-content">
+            <div class="event-header">
+                <div class="event-title">${event.description}</div>
+                <div class="event-meta">Severity: ${event.severity.toUpperCase()} | Type: ${event.eventType} | ${formattedTimestamp}</div>
+            </div>
 
-        <div class="event-actions">
-            <button class="btn btn-danger" onclick="classifyEvent('malicious')" ${isClassified ? 'disabled' : ''}>🚨 Malicious</button>
-            <button class="btn btn-warning" onclick="classifyEvent('suspicious')" ${isClassified ? 'disabled' : ''}>⚠️ Suspicious</button>
-            <button class="btn btn-success" onclick="classifyEvent('false_positive')" ${isClassified ? 'disabled' : ''}>✅ False Positive</button>
-        </div>`;
+            <div class="event-actions">
+                <button class="btn btn-danger" onclick="classifyEvent('malicious')" ${isClassified ? 'disabled' : ''}>🚨 Malicious</button>
+                <button class="btn btn-warning" onclick="classifyEvent('suspicious')" ${isClassified ? 'disabled' : ''}>⚠️ Suspicious</button>
+                <button class="btn btn-success" onclick="classifyEvent('false_positive')" ${isClassified ? 'disabled' : ''}>✅ False Positive</button>
+            </div>`;
 
     if (isClassified) {
         detailsHTML += `
-        <div style="background: #2d4663; padding: 12px; border-radius: 5px; margin: 18px 0; font-size: 13px; border: 1px solid #3a5a7a;">
+        <div style="background: #2d4663; padding: 12px; border-radius: 5px; margin-bottom: 20px; font-size: 13px; border: 1px solid #3a5a7a;">
             <strong>Your Classification:</strong> ${event.userClassification === 'false_positive' ? 'FALSE POSITIVE' : event.userClassification.toUpperCase()}
         </div>`;
     }
 
+    // Investigation tools section
     detailsHTML += `
-        <div id="eventDetailsContent">
+        <div class="investigation-tools">
+            <h4>Investigation Tools</h4>
+            <div class="tool-links">`;
+    
+    investigationTools.forEach(tool => {
+        detailsHTML += `<a href="${tool.url}" target="_blank" class="tool-link">${tool.name}</a>`;
+    });
+
+    detailsHTML += `
+            </div>
+            <div style="margin-top: 12px; font-size: 11px; color: #a0c4e0; text-align: center;">
+                💡 Click on highlighted values below to copy them for investigation
+            </div>
+        </div>
+
+        <!-- Two-column fields layout -->
+        <div class="fields-container">
             <div class="field-group">
                 <div class="field-label">Event ID</div>
                 <div class="field-value">${event.id}</div>
@@ -295,9 +314,18 @@ function selectEvent(eventId) {
                 <div class="field-value"><span class="selectable-text copy-btn" data-copy="${event.destination}">${event.destination}</span></div>
             </div>`;
 
-    Object.entries(event.details).forEach(([key, value]) => {
+    // Add all event details in two-column layout
+    const detailEntries = Object.entries(event.details);
+    detailEntries.forEach(([key, value]) => {
+        // Determine if this field should be full-width
+        const isLongField = key.includes('command_line') || key.includes('url') || key.includes('raw_logs') || 
+                           key.includes('query') || key.includes('download_url') || 
+                           value.toString().length > 50;
+        
+        const fieldClass = isLongField ? 'field-group full-width' : 'field-group';
+        
         detailsHTML += `
-            <div class="field-group">
+            <div class="${fieldClass}">
                 <div class="field-label">${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
                 <div class="field-value">
                     <span class="selectable-text copy-btn" data-copy="${value}">${value}</span>
@@ -306,25 +334,19 @@ function selectEvent(eventId) {
     });
 
     detailsHTML += `
-            <div class="investigation-tools">
-                <h4>Investigation Tools</h4>
-                <div class="tool-links">`;
-    
-    investigationTools.forEach(tool => {
-        detailsHTML += `<a href="${tool.url}" target="_blank" class="tool-link">${tool.name}</a>`;
-    });
+        </div>
 
-    detailsHTML += `
-                </div>
-                <div style="margin-top: 12px; font-size: 11px; color: #a0c4e0;">
-                    💡 Click on highlighted values to copy them instantly for investigation
-                </div>
+        <!-- Collapsible Raw Data Section -->
+        <div class="raw-data-section">
+            <div class="raw-data-header" onclick="toggleRawData()">
+                <h4 style="margin: 0; color: #ffffff;">Raw Event Data</h4>
+                <span class="raw-data-toggle" id="rawDataToggle">Click to expand ▼</span>
             </div>
-
-            <div class="event-raw-data">
-                <h4 style="margin-bottom: 12px; color: #ffffff;">Raw Event Data</h4>
-                <pre>${event.rawData}</pre>
+            <div class="raw-data-content" id="rawDataContent">
+                <div class="event-raw-data">${event.rawData}</div>
             </div>
+        </div>
+        
         </div>
     `;
 
@@ -332,14 +354,27 @@ function selectEvent(eventId) {
     renderEvents();
 }
 
+function toggleRawData() {
+    const content = document.getElementById('rawDataContent');
+    const toggle = document.getElementById('rawDataToggle');
+    
+    if (content.classList.contains('expanded')) {
+        content.classList.remove('expanded');
+        toggle.textContent = 'Click to expand ▼';
+    } else {
+        content.classList.add('expanded');
+        toggle.textContent = 'Click to collapse ▲';
+    }
+}
+
 function generateInvestigationTools(event) {
     return [
-        { name: '🔍 AbuseIPDB - Check IP Reputation', url: 'https://www.abuseipdb.com/' },
-        { name: '🌐 URLScan.io - Analyze URLs', url: 'https://urlscan.io/' },
-        { name: '🦠 VirusTotal - File/Hash Analysis', url: 'https://www.virustotal.com/' },
-        { name: '📊 Shodan - IP Intelligence', url: 'https://www.shodan.io/' },
-        { name: '🔗 URLVoid - URL Reputation', url: 'https://www.urlvoid.com/' },
-        { name: '📈 AlienVault OTX - Threat Intelligence', url: 'https://otx.alienvault.com/' }
+        { name: '🔍 AbuseIPDB', url: 'https://www.abuseipdb.com/' },
+        { name: '🌐 URLScan.io', url: 'https://urlscan.io/' },
+        { name: '🦠 VirusTotal', url: 'https://www.virustotal.com/' },
+        { name: '📊 Shodan', url: 'https://www.shodan.io/' },
+        { name: '🔗 URLVoid', url: 'https://www.urlvoid.com/' },
+        { name: '📈 OTX AlienVault', url: 'https://otx.alienvault.com/' }
     ];
 }
 
