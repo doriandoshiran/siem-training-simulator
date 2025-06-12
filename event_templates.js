@@ -1,9 +1,9 @@
-// Event templates for SIEM training
+// Event templates for SIEM training - Each event is unique
 const eventTemplates = {
     malicious: [
         {
             eventType: 'Network Connection',
-            description: 'Outbound TCP connection to suspicious IP',
+            description: 'Outbound TCP connection to suspicious IP address',
             sourceIP: '192.168.1.157',
             destinationIP: '185.220.101.42',
             destination: '185.220.101.42:8080',
@@ -18,7 +18,7 @@ const eventTemplates = {
                 source_port: '49152',
                 destination_port: '8080',
                 process_name: 'chrome.exe',
-                threat_intel: 'IP associated with malware C2'
+                threat_intel: 'IP associated with known malware C2 infrastructure'
             }
         },
         {
@@ -39,7 +39,7 @@ const eventTemplates = {
                 source_port: '443',
                 destination_port: '80',
                 user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-                domain_reputation: 'Recently registered domain'
+                domain_reputation: 'Recently registered domain (3 days old)'
             }
         },
         {
@@ -59,7 +59,7 @@ const eventTemplates = {
                 destination_port: '1433',
                 table_accessed: 'employees',
                 records_returned: '47',
-                policy_violation: 'Security guards have no database access'
+                policy_violation: 'Security guards have no database access authorization'
             }
         },
         {
@@ -76,12 +76,12 @@ const eventTemplates = {
                 vendor_id: '0x1234',
                 product_id: '0x5678',
                 serial_number: 'UNKNOWN001122334455',
-                device_name: 'Generic USB Device',
+                device_name: 'Generic USB Flash Drive',
                 source_port: 'USB3',
                 destination_port: 'USB3',
                 files_accessed: '247',
-                policy_violation: 'Interns not authorized for USB devices',
-                device_encryption: 'None'
+                policy_violation: 'Interns not authorized for USB device usage',
+                device_encryption: 'None detected'
             }
         },
         {
@@ -100,13 +100,13 @@ const eventTemplates = {
                 user_agent: 'Stratum/1.6.0',
                 source_port: '49876',
                 destination_port: '443',
-                payload_data: 'mining.subscribe parameters',
-                policy_violation: 'Cryptocurrency mining prohibited'
+                payload_data: 'mining.subscribe worker credentials',
+                policy_violation: 'Cryptocurrency mining explicitly prohibited'
             }
         },
         {
             eventType: 'Email Attachment',
-            description: 'Suspicious double-extension file attachment',
+            description: 'Suspicious double-extension file in email',
             sourceIP: '192.168.1.67',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
@@ -142,20 +142,20 @@ const eventTemplates = {
                 source_port: '53',
                 destination_port: '53',
                 domain_age: '3 days',
-                threat_intel: 'Known C2 infrastructure',
-                dns_tunneling_indicators: 'Detected'
+                threat_intel: 'Known C2 infrastructure from threat feeds',
+                dns_tunneling_indicators: 'Unusual query patterns detected'
             }
         },
         {
             eventType: 'Administrative Access',
-            description: 'External administrator login from unknown location',
+            description: 'External administrator login from foreign country',
             sourceIP: '203.0.113.89',
             destinationIP: '192.168.1.10',
             destination: 'DC-PROD-01.acmecorp.local',
             severity: 'critical',
             details: {
                 username: 'ACMECORP\\administrator',
-                login_source: 'External IP',
+                login_source: 'External IP address',
                 access_time: '03:22:45',
                 authentication_method: 'NTLM',
                 source_country: 'Romania',
@@ -163,7 +163,8 @@ const eventTemplates = {
                 destination_port: '3389',
                 session_duration: '00:08:15',
                 geolocation: 'Bucharest, Romania',
-                previous_login: 'New York office (6 hours ago)'
+                previous_login: 'New York office (6 hours ago)',
+                impossible_travel: 'Yes - travel time violation'
             }
         },
         {
@@ -183,7 +184,7 @@ const eventTemplates = {
                 source_port: '443',
                 destination_port: '443',
                 file_types: 'xlsx,pdf,docx (financial records)',
-                policy_violation: 'Personal cloud storage prohibited'
+                policy_violation: 'Personal cloud storage strictly prohibited'
             }
         },
         {
@@ -202,7 +203,7 @@ const eventTemplates = {
                 file_hash: '44d88612fea8a8f36de82e1278abb02f',
                 source_port: 'local',
                 destination_port: 'local',
-                decoded_command: 'Invoke-WebRequest to external URL',
+                decoded_command: 'Invoke-WebRequest to external malicious URL',
                 execution_policy: 'Bypass'
             }
         },
@@ -217,18 +218,18 @@ const eventTemplates = {
                 external_ip: '203.0.113.45',
                 target_network: '192.168.1.0/24',
                 ports_scanned: '22,23,80,135,139,443,445,3389,5900',
-                scan_type: 'TCP_SYN',
+                scan_type: 'TCP_SYN_Scan',
                 packets_sent: '1847',
                 source_country: 'Russia',
-                source_port: 'random',
-                destination_port: 'multiple',
+                source_port: 'random_high_ports',
+                destination_port: 'multiple_targets',
                 scan_duration: '00:15:43',
                 open_ports_found: '80,443,3389'
             }
         },
         {
             eventType: 'Privilege Escalation',
-            description: 'Unauthorized privilege escalation attempt',
+            description: 'Unauthorized privilege escalation attempt detected',
             sourceIP: '192.168.1.143',
             destinationIP: '192.168.1.10',
             destination: 'DC-PROD-01.acmecorp.local',
@@ -237,18 +238,18 @@ const eventTemplates = {
                 hostname: 'WS-GUEST-KIOSK',
                 username: 'ACMECORP\\joshua.phillips',
                 target_privilege: 'SeDebugPrivilege',
-                method: 'Token_Manipulation',
+                method: 'Token_Manipulation_Attack',
                 process: 'explorer.exe',
                 target_user: 'ACMECORP\\administrator',
-                source_port: 'local',
-                destination_port: 'local',
-                technique: 'Process token duplication',
-                success_status: 'Failed - Access Denied'
+                source_port: 'local_process',
+                destination_port: 'local_process',
+                technique: 'Process token duplication exploit',
+                success_status: 'Failed - Access Denied by EDR'
             }
         },
         {
             eventType: 'Malware Detection',
-            description: 'Trojan detected in system memory',
+            description: 'Banking Trojan detected in system memory',
             sourceIP: '192.168.1.156',
             destinationIP: '192.168.1.156',
             destination: 'localhost',
@@ -256,22 +257,42 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-ACCOUNTING-04',
                 username: 'ACMECORP\\robert.garcia',
-                malware_family: 'Emotet.Trojan',
-                detection_method: 'Behavioral Analysis',
+                malware_family: 'Emotet.Banking_Trojan',
+                detection_method: 'Behavioral_Analysis_Engine',
                 process_name: 'svchost.exe',
                 process_id: '2847',
                 parent_process: 'winword.exe',
-                source_port: 'local',
-                destination_port: 'local',
-                infection_vector: 'Malicious email attachment',
-                quarantine_status: 'Successfully quarantined'
+                source_port: 'local_process',
+                destination_port: 'local_process',
+                infection_vector: 'Malicious email attachment macro',
+                quarantine_status: 'Successfully isolated and quarantined'
+            }
+        },
+        {
+            eventType: 'Lateral Movement',
+            description: 'Suspicious SMB lateral movement detected',
+            sourceIP: '192.168.1.99',
+            destinationIP: '192.168.1.205',
+            destination: 'WS-FINANCE-15.acmecorp.local',
+            severity: 'high',
+            details: {
+                hostname: 'WS-TEMP-CONTRACTOR',
+                username: 'ACMECORP\\temp_contractor_001',
+                protocol: 'SMB',
+                service: 'ADMIN$',
+                access_type: 'Administrative_Share',
+                source_port: '445',
+                destination_port: '445',
+                authentication_method: 'NTLM_Pass_the_Hash',
+                policy_violation: 'Contractors forbidden from accessing other workstations',
+                credential_reuse: 'Detected - same hash used on multiple systems'
             }
         }
     ],
     falsePositive: [
         {
             eventType: 'Software Update',
-            description: 'Application update process initiated',
+            description: 'Microsoft Windows security update installation',
             sourceIP: '192.168.1.45',
             destinationIP: '13.107.42.14',
             destination: 'download.microsoft.com',
@@ -286,13 +307,13 @@ const eventTemplates = {
                 download_url: 'https://download.microsoft.com/updates/kb4023057.msu',
                 source_port: '443',
                 destination_port: '443',
-                digital_signature: 'Valid Microsoft Corporation',
-                update_category: 'Security Updates'
+                digital_signature: 'Valid Microsoft Corporation certificate',
+                update_category: 'Critical Security Updates'
             }
         },
         {
             eventType: 'Database Backup',
-            description: 'Automated database backup operation',
+            description: 'Scheduled automated database backup operation',
             sourceIP: '192.168.1.200',
             destinationIP: '192.168.1.210',
             destination: 'BACKUP-SRV-01.acmecorp.local',
@@ -302,17 +323,17 @@ const eventTemplates = {
                 username: 'ACMECORP\\svc.backup',
                 database: 'employee_records',
                 backup_size: '2847264000',
-                backup_location: '\\\\BACKUP-SRV-01\\db_backups\\',
-                scheduled_task: 'Daily_DB_Backup_02:00',
+                backup_location: '\\\\BACKUP-SRV-01\\db_backups\\daily\\',
+                scheduled_task: 'Daily_DB_Backup_02:00_AM',
                 source_port: '1433',
                 destination_port: '1433',
-                backup_type: 'Full backup',
-                completion_status: 'Successful'
+                backup_type: 'Full_Database_Backup',
+                completion_status: 'Successful - No errors'
             }
         },
         {
             eventType: 'VPN Connection',
-            description: 'Remote access connection established',
+            description: 'Authorized remote access via corporate VPN',
             sourceIP: '78.47.162.89',
             destinationIP: '198.51.100.10',
             destination: 'vpn.acmecorp.com',
@@ -322,17 +343,17 @@ const eventTemplates = {
                 username: 'ACMECORP\\nicole.baker',
                 connection_duration: '08:15:32',
                 bytes_transferred: '847291648',
-                client_version: 'OpenVPN 2.5.7',
-                certificate_valid: 'true',
+                client_version: 'OpenVPN_2.5.7_official',
+                certificate_valid: 'Valid corporate certificate',
                 source_port: '1194',
                 destination_port: '1194',
-                vpn_server: 'Corporate VPN - Primary',
-                authentication_method: 'Certificate + Username/Password'
+                vpn_server: 'Corporate_VPN_Primary_Gateway',
+                authentication_method: 'Certificate_and_Username_Password'
             }
         },
         {
             eventType: 'Antivirus Scan',
-            description: 'Scheduled security scan completed',
+            description: 'Scheduled full system antivirus scan completed',
             sourceIP: '192.168.1.155',
             destinationIP: '192.168.1.155',
             destination: 'localhost',
@@ -340,19 +361,19 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-RESEARCH-09',
                 username: 'ACMECORP\\tyler.jones',
-                scan_type: 'full_system',
+                scan_type: 'Full_System_Scan',
                 files_scanned: '287451',
                 threats_found: '0',
                 scan_duration: '02:34:17',
-                engine_version: 'Windows Defender 1.381.2140.0',
-                source_port: 'local',
-                destination_port: 'local',
-                last_definition_update: '2024-06-05 06:00:00'
+                engine_version: 'Windows_Defender_1.381.2140.0',
+                source_port: 'local_service',
+                destination_port: 'local_service',
+                last_definition_update: '2024-06-05_06:00:00_UTC'
             }
         },
         {
             eventType: 'System Monitoring',
-            description: 'Performance monitoring agent update',
+            description: 'DataDog monitoring agent automatic update',
             sourceIP: '192.168.1.188',
             destinationIP: '104.18.34.243',
             destination: 'monitoring.datadog.com',
@@ -360,19 +381,19 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-ANALYTICS-15',
                 username: 'ACMECORP\\michelle.king',
-                agent_version: 'v2.14.7',
+                agent_version: 'datadog_agent_v2.14.7',
                 update_size: '8847264',
-                signature_valid: 'true',
-                certificate: 'CN=Datadog Inc.',
+                signature_valid: 'Valid_Datadog_Inc_Certificate',
+                certificate: 'CN=Datadog_Inc_O=Datadog_Inc',
                 source_port: '443',
                 destination_port: '443',
-                service_name: 'Approved monitoring solution',
-                auto_update: 'Enabled'
+                service_name: 'Approved_Corporate_Monitoring_Solution',
+                auto_update_policy: 'Enabled_and_Authorized'
             }
         },
         {
             eventType: 'Patch Installation',
-            description: 'Security patch installation completed',
+            description: 'WSUS security patch deployment completed',
             sourceIP: '192.168.1.77',
             destinationIP: '192.168.1.251',
             destination: 'WSUS-SRV-01.acmecorp.local',
@@ -380,19 +401,19 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-SUPPORT-13',
                 username: 'ACMECORP\\ashley.adams',
-                patch_id: 'KB5028166',
-                category: 'Security Updates',
-                install_status: 'successful',
-                reboot_required: 'false',
+                patch_id: 'KB5028166_Security_Update',
+                category: 'Critical_Security_Updates',
+                install_status: 'Successfully_Installed',
+                reboot_required: 'No_Reboot_Needed',
                 source_port: '80',
                 destination_port: '8530',
-                wsus_server: 'Corporate patch management',
-                deployment_group: 'IT_Workstations'
+                wsus_server: 'Corporate_Patch_Management_System',
+                deployment_group: 'IT_Workstations_Production'
             }
         },
         {
             eventType: 'File Synchronization',
-            description: 'OneDrive business file sync operation',
+            description: 'OneDrive for Business automatic file sync',
             sourceIP: '192.168.1.145',
             destinationIP: '40.126.31.192',
             destination: 'onedrive.live.com',
@@ -400,19 +421,19 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-DESIGN-07',
                 username: 'ACMECORP\\rachel.hill',
-                sync_folder: 'Documents',
+                sync_folder: 'Corporate_Documents_Folder',
                 files_synced: '47',
                 bytes_uploaded: '23847264',
                 user_account: 'rachel.hill@acmecorp.com',
                 source_port: '443',
                 destination_port: '443',
                 tenant_id: 'acmecorp.onmicrosoft.com',
-                sync_type: 'Corporate OneDrive'
+                sync_type: 'Corporate_OneDrive_Business_Account'
             }
         },
         {
             eventType: 'Print Job',
-            description: 'Document sent to network printer',
+            description: 'Secure document printing to network printer',
             sourceIP: '192.168.1.92',
             destinationIP: '192.168.1.210',
             destination: 'PRINTER-01.acmecorp.local',
@@ -420,19 +441,19 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-FINANCE-03',
                 username: 'ACMECORP\\john.thompson',
-                document_name: 'Financial_Report_Q4.pdf',
+                document_name: 'Q4_Financial_Report_CONFIDENTIAL.pdf',
                 pages: '24',
-                printer: 'HP_LaserJet_Floor2',
+                printer: 'HP_LaserJet_Pro_Floor2_Secure',
                 job_size: '2847264',
                 source_port: '9100',
                 destination_port: '9100',
-                print_queue: 'Finance_Secure_Printer',
-                color_mode: 'Monochrome'
+                print_queue: 'Finance_Secure_Print_Queue',
+                color_mode: 'Monochrome_Duplex'
             }
         },
         {
             eventType: 'Email Send',
-            description: 'Business email sent to external recipient',
+            description: 'Business proposal email sent to external client',
             sourceIP: '192.168.1.156',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
@@ -440,19 +461,19 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-SALES-12',
                 username: 'ACMECORP\\christopher.lee',
-                recipient: 'client@partnercorp.com',
-                subject: 'Q1 Business Proposal',
+                recipient: 'procurement@partnercorp.com',
+                subject: 'Q1_2024_Business_Partnership_Proposal',
                 attachment_count: '3',
                 message_size: '847264',
                 source_port: '25',
                 destination_port: '25',
-                dkim_signature: 'Valid',
-                spam_score: '0.1'
+                dkim_signature: 'Valid_ACMECORP_Signature',
+                spam_score: '0.1_Clean_Email'
             }
         },
         {
             eventType: 'Certificate Renewal',
-            description: 'SSL certificate auto-renewal process',
+            description: 'Let\'s Encrypt SSL certificate auto-renewal',
             sourceIP: '192.168.1.250',
             destinationIP: '172.65.32.183',
             destination: 'acme-v02.api.letsencrypt.org',
@@ -461,18 +482,18 @@ const eventTemplates = {
                 hostname: 'MAIL-SRV-01',
                 username: 'ACMECORP\\svc.certificates',
                 domain: 'mail.acmecorp.com',
-                certificate_authority: 'Let\'s Encrypt Authority X3',
-                validity_period: '90 days',
-                renewal_status: 'successful',
+                certificate_authority: 'Lets_Encrypt_Authority_X3',
+                validity_period: '90_days_standard',
+                renewal_status: 'Successfully_Renewed',
                 source_port: '443',
                 destination_port: '443',
-                old_cert_expiry: '2024-06-08',
-                new_cert_expiry: '2024-09-06'
+                old_cert_expiry: '2024-06-08_23:59:59',
+                new_cert_expiry: '2024-09-06_23:59:59'
             }
         },
         {
             eventType: 'Approved USB Device',
-            description: 'Corporate encrypted USB device connected',
+            description: 'Corporate encrypted USB device authorized connection',
             sourceIP: '192.168.1.88',
             destinationIP: '192.168.1.88',
             destination: 'localhost',
@@ -480,16 +501,16 @@ const eventTemplates = {
             details: {
                 hostname: 'WS-EXECUTIVE-02',
                 username: 'ACMECORP\\james.wilson',
-                device_type: 'USB_Mass_Storage',
+                device_type: 'USB_Mass_Storage_Encrypted',
                 vendor_id: '0x13FE',
                 product_id: '0x4200',
-                serial_number: 'IK-SEC-001122334455',
-                device_name: 'IronKey Secure USB',
-                source_port: 'USB3',
-                destination_port: 'USB3',
+                serial_number: 'IK-SEC-CORP-001122334455',
+                device_name: 'IronKey_Secure_USB_Corporate',
+                source_port: 'USB3_Port',
+                destination_port: 'USB3_Port',
                 files_accessed: '12',
-                device_encryption: 'AES-256',
-                approval_status: 'Pre-approved corporate device'
+                device_encryption: 'AES-256_Hardware_Encrypted',
+                approval_status: 'Pre-approved_Executive_Device'
             }
         }
     ]
