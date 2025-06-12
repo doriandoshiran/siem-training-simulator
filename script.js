@@ -5,6 +5,54 @@ let classificationsComplete = 0;
 let timerInterval = null;
 let timeRemaining = 30 * 60;
 
+function smartShuffle(events) {
+    // First, do a basic shuffle
+    for (let i = events.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [events[i], events[j]] = [events[j], events[i]];
+    }
+    
+    // Then, check for clustering and fix it
+    let maxAttempts = 50;
+    let attempt = 0;
+    
+    while (attempt < maxAttempts) {
+        let needsReshuffle = false;
+        
+        // Check if any events of the same type are too close together
+        for (let i = 0; i < events.length - 1; i++) {
+            const currentEvent = events[i];
+            const nextEvent = events[i + 1];
+            
+            // Check if same event type appears consecutively or within 2 positions
+            if (i < events.length - 2) {
+                const afterNextEvent = events[i + 2];
+                if (currentEvent.eventType === nextEvent.eventType || 
+                    currentEvent.eventType === afterNextEvent.eventType ||
+                    nextEvent.eventType === afterNextEvent.eventType) {
+                    needsReshuffle = true;
+                    break;
+                }
+            } else if (currentEvent.eventType === nextEvent.eventType) {
+                needsReshuffle = true;
+                break;
+            }
+        }
+        
+        if (!needsReshuffle) {
+            break; // Good distribution achieved
+        }
+        
+        // Reshuffle if clustering detected
+        for (let i = events.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [events[i], events[j]] = [events[j], events[i]];
+        }
+        
+        attempt++;
+    }
+}
+
 function generateRandomTime() {
     const now = new Date();
     const timeAgo = new Date(now.getTime() - (Math.random() * 24 * 60 * 60 * 1000));
@@ -132,8 +180,8 @@ function initializeTraining() {
         trainingEvents.push(event);
     });
 
-    // Shuffle all events randomly
-    trainingEvents.sort(() => Math.random() - 0.5);
+    // Smart shuffle to prevent similar events from clustering
+    smartShuffle(trainingEvents);
     renderEvents();
     updateStats();
     resetEventDetailsPanel();

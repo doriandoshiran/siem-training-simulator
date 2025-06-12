@@ -123,6 +123,7 @@ body {
     background: #2d4663;
     padding: 25px;
     border-radius: 8px;
+    /* REMOVED: border-bottom: 1px solid #3a5a7a; */
 }
 
 .doc-section h3 {
@@ -132,20 +133,31 @@ body {
     padding-bottom: 8px;
 }
 
-/* Fixed spacing for company overview */
+/* Enhanced spacing for company overview */
 .doc-section p {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    line-height: 1.6;
 }
 
 .doc-section ul {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 .doc-section li {
-    padding: 4px 0;
+    padding: 6px 0;
     font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Extra spacing for specific elements in company overview */
+.doc-section p + ul {
+    margin-top: 25px;
+}
+
+.doc-section ul + p {
+    margin-top: 25px;
 }
 
 .policy-grid {
@@ -224,7 +236,6 @@ body {
 .stats-bar {
     background: #2d4663;
     padding: 12px 20px;
-    /* REMOVED: border-bottom: 1px solid #3a5a7a; */
     display: flex;
     justify-content: space-between;
     align-items: center;
