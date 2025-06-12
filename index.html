@@ -6,6 +6,36 @@
     <title>SIEM Analysis Training</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional CSS for improved layout */
+        #eventTable th:nth-child(1) { width: 12%; } /* Timestamp */
+        #eventTable th:nth-child(2) { width: 8%; }  /* Severity */
+        #eventTable th:nth-child(3) { width: 12%; } /* Event Type */
+        #eventTable th:nth-child(4) { width: 28%; } /* Description - Optimized */
+        #eventTable th:nth-child(5) { width: 12%; } /* Source IP */
+        #eventTable th:nth-child(6) { width: 22%; } /* Destination - Increased */
+        #eventTable th:nth-child(7) { width: 6%; }  /* Status */
+
+        .main-container {
+            display: flex;
+            gap: 20px;
+            height: calc(100vh - 180px);
+        }
+        
+        .events-panel {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .details-panel {
+            width: 500px; /* Made wider for better readability */
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+    </style>
 </head>
 <body>
     <div class="header">
@@ -142,7 +172,7 @@
                 <div class="doc-section">
                     <h3>Employee Access Matrix</h3>
                     <div class="access-table">
-                        <table>
+                        <table id="employeeTable">
                             <thead>
                                 <tr>
                                     <th>Employee</th>
@@ -155,7 +185,7 @@
                                     <th>Remote Access</th>
                                 </tr>
                             </thead>
-                            <tbody id="employeeTableBody">
+                            <tbody>
                                 <!-- Employee data will be loaded from employees.js -->
                             </tbody>
                         </table>
@@ -194,16 +224,16 @@
             <!-- Events List -->
             <div class="events-list">
                 <div class="events-container">
-                    <table class="events-table">
+                    <table class="events-table" id="eventTable">
                         <thead>
                             <tr>
-                                <th style="width: 150px;">Timestamp</th>
-                                <th style="width: 90px;">Severity</th>
-                                <th style="width: 140px;">Event Type</th>
+                                <th>Timestamp</th>
+                                <th>Severity</th>
+                                <th>Event Type</th>
                                 <th>Description</th>
-                                <th style="width: 130px;">Source IP</th>
-                                <th style="width: 130px;">Destination</th>
-                                <th style="width: 100px;">Status</th>
+                                <th>Source IP</th>
+                                <th>Destination</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="eventsTableBody">
