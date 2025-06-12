@@ -1,0 +1,458 @@
+// Main SIEM Training Application Script
+let trainingEvents = [];
+let selectedEventId = null;
+let classificationsComplete = 0;
+let timerInterval = null;
+let timeRemaining = 30 * 60;
+
+function generateRandomTime() {
+    const now = new Date();
+    const timeAgo = new Date(now.getTime() - (Math.random() * 24 * 60 * 60 * 1000));
+    return timeAgo.toISOString();
+}
+
+function generateRawEventData(event) {
+    const timestamp = new Date(event.timestamp).toISOString();
+    const severityNum = event.severity === 'critical' ? '10' : event.severity === 'high' ? '7' : event.severity === 'medium' ? '5' : '3';
+    const eventId = Math.floor(Math.random() * 9999);
+    
+    let rawData = `CEF:0|ACME-SIEM|SecureMon|3.2.1|${eventId}|${event.description}|${severityNum}|
+deviceReceiptTime=${timestamp}
+src=${event.sourceIP}
+dst=${event.destinationIP || event.destination.split(':')[0] || event.destination}
+spt=${event.details.source_port || Math.floor(Math.random() * 65535)}
+dpt=${event.details.destination_port || Math.floor(Math.random() * 65535)}
+proto=${event.details.protocol || 'TCP'}
+act=observed
+cs1Label=EventType cs1=${event.eventType}
+cs2Label=Hostname cs2=${event.details.hostname}
+suser=${event.details.username}`;
+    
+    if (event.details.filename) {
+        rawData += `
+fname=${event.details.filename}
+fsize=${event.details.file_size}`;
+    }
+    if (event.details.process_name) {
+        rawData += `
+sproc=${event.details.process_name}`;
+    }
+    if (event.details.command_line) {
+        rawData += `
+cs3Label=CommandLine
+cs3="${event.details.command_line}"`;
+    }
+    if (event.details.hash_md5) {
+        rawData += `
+fileHash=${event.details.hash_md5}`;
+    }
+    if (event.details.policy_violation) {
+        rawData += `
+cs4Label=PolicyViolation
+cs4="${event.details.policy_violation}"`;
+    }
+    if (event.details.threat_intel) {
+        rawData += `
+cs5Label=ThreatIntel
+cs5="${event.details.threat_intel}"`;
+    }
+    
+    rawData += `
+msg=${event.description}`;
+    
+    return rawData;
+}
+
+function initializeTraining() {
+    trainingEvents = [];
+    classificationsComplete = 0;
+    selectedEventId = null;
+    timeRemaining = 30 * 60;
+
+    // Generate 14 malicious events
+    const maliciousTemplates = [...eventTemplates.malicious];
+    for (let i = 0; i < 14; i++) {
+        const template = maliciousTemplates[i % maliciousTemplates.length];
+        const event = {
+            id: Math.random().toString(36).substr(2, 9),
+            timestamp: generateRandomTime(),
+            severity: template.severity,
+            eventType: template.eventType,
+            description: template.description,
+            sourceIP: template.sourceIP,
+            destinationIP: template.destinationIP,
+            destination: template.destination,
+            details: template.details,
+            actualType: 'malicious',
+            userClassification: null,
+            rawData: null
+        };
+        event.rawData = generateRawEventData(event);
+        trainingEvents.push(event);
+    }
+
+    // Generate 11 false positive events
+    const fpTemplates = [...eventTemplates.falsePositive];
+    for (let i = 0; i < 11; i++) {
+        const template = fpTemplates[i % fpTemplates.length];
+        const event = {
+            id: Math.random().toString(36).substr(2, 9),
+            timestamp: generateRandomTime(),
+            severity: template.severity,
+            eventType: template.eventType,
+            description: template.description,
+            sourceIP: template.sourceIP,
+            destinationIP: template.destinationIP,
+            destination: template.destination,
+            details: template.details,
+            actualType: 'false_positive',
+            userClassification: null,
+            rawData: null
+        };
+        event.rawData = generateRawEventData(event);
+        trainingEvents.push(event);
+    }
+
+    trainingEvents.sort(() => Math.random() - 0.5);
+    renderEvents();
+    updateStats();
+    resetEventDetailsPanel();
+    startTimer();
+}
+
+function renderEvents() {
+    const tbody = document.getElementById('eventsTableBody');
+    tbody.innerHTML = '';
+
+    trainingEvents.forEach(event => {
+        const row = document.createElement('tr');
+        row.className = `event-row ${event.userClassification ? 'classified' : ''}`;
+        row.onclick = () => selectEvent(event.id);
+        
+        if (selectedEventId === event.id) {
+            row.classList.add('selected');
+        }
+
+        const timestamp = new Date(event.timestamp).toLocaleString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).replace(',', '');
+        
+        let statusBadge = '';
+        if (event.userClassification) {
+            const displayText = event.userClassification === 'false_positive' ? 'FALSE POSITIVE' : event.userClassification.toUpperCase();
+            const badgeClass = event.userClassification === 'false_positive' ? 'false-positive' : event.userClassification;
+            statusBadge = `<span class="classification-badge classified-${badgeClass}">${displayText}</span>`;
+        } else {
+            statusBadge = '<span class="status-pending">PENDING</span>';
+        }
+        
+        row.innerHTML = `
+            <td>${timestamp}</td>
+            <td><span class="priority-${event.severity}">${event.severity.toUpperCase()}</span></td>
+            <td>${event.eventType}</td>
+            <td>${event.description}</td>
+            <td>${event.sourceIP}</td>
+            <td>${event.destinationIP || event.destination.split(':')[0]}</td>
+            <td>${statusBadge}</td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+
+function selectEvent(eventId) {
+    selectedEventId = eventId;
+    const event = trainingEvents.find(e => e.id === eventId);
+    
+    if (!event) return;
+
+    const panel = document.getElementById('eventDetailsPanel');
+    panel.classList.remove('empty');
+
+    const isClassified = event.userClassification !== null;
+    const investigationTools = generateInvestigationTools(event);
+
+    const formattedTimestamp = new Date(event.timestamp).toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    }).replace(',', '');
+
+    let detailsHTML = `
+        <div class="event-header">
+            <div class="event-title">${event.description}</div>
+            <div class="event-meta">Severity: ${event.severity.toUpperCase()} | Type: ${event.eventType} | ${formattedTimestamp}</div>
+        </div>
+
+        <div class="event-actions">
+            <button class="btn btn-danger" onclick="classifyEvent('malicious')" ${isClassified ? 'disabled' : ''}>🚨 Malicious</button>
+            <button class="btn btn-warning" onclick="classifyEvent('suspicious')" ${isClassified ? 'disabled' : ''}>⚠️ Suspicious</button>
+            <button class="btn btn-success" onclick="classifyEvent('false_positive')" ${isClassified ? 'disabled' : ''}>✅ False Positive</button>
+        </div>`;
+
+    if (isClassified) {
+        detailsHTML += `
+        <div style="background: #2d4663; padding: 12px; border-radius: 5px; margin: 18px 0; font-size: 13px; border: 1px solid #3a5a7a;">
+            <strong>Your Classification:</strong> ${event.userClassification === 'false_positive' ? 'FALSE POSITIVE' : event.userClassification.toUpperCase()}
+        </div>`;
+    }
+
+    detailsHTML += `
+        <div id="eventDetailsContent">
+            <div class="field-group">
+                <div class="field-label">Event ID</div>
+                <div class="field-value">${event.id}</div>
+            </div>
+            
+            <div class="field-group">
+                <div class="field-label">Source IP</div>
+                <div class="field-value"><span class="selectable-text copy-btn" data-copy="${event.sourceIP}">${event.sourceIP}</span></div>
+            </div>
+            
+            <div class="field-group">
+                <div class="field-label">Destination IP</div>
+                <div class="field-value"><span class="selectable-text copy-btn" data-copy="${event.destinationIP}">${event.destinationIP}</span></div>
+            </div>
+            
+            <div class="field-group">
+                <div class="field-label">Destination</div>
+                <div class="field-value"><span class="selectable-text copy-btn" data-copy="${event.destination}">${event.destination}</span></div>
+            </div>`;
+
+    Object.entries(event.details).forEach(([key, value]) => {
+        detailsHTML += `
+            <div class="field-group">
+                <div class="field-label">${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                <div class="field-value">
+                    <span class="selectable-text copy-btn" data-copy="${value}">${value}</span>
+                </div>
+            </div>`;
+    });
+
+    detailsHTML += `
+            <div class="investigation-tools">
+                <h4>Investigation Tools</h4>
+                <div class="tool-links">`;
+    
+    investigationTools.forEach(tool => {
+        detailsHTML += `<a href="${tool.url}" target="_blank" class="tool-link">${tool.name}</a>`;
+    });
+
+    detailsHTML += `
+                </div>
+                <div style="margin-top: 12px; font-size: 11px; color: #a0c4e0;">
+                    💡 Click on highlighted values to copy them instantly for investigation
+                </div>
+            </div>
+
+            <div class="event-raw-data">
+                <h4 style="margin-bottom: 12px; color: #ffffff;">Raw Event Data</h4>
+                <pre>${event.rawData}</pre>
+            </div>
+        </div>
+    `;
+
+    panel.innerHTML = detailsHTML;
+    renderEvents();
+}
+
+function generateInvestigationTools(event) {
+    return [
+        { name: '🔍 AbuseIPDB - Check IP Reputation', url: 'https://www.abuseipdb.com/' },
+        { name: '🌐 URLScan.io - Analyze URLs', url: 'https://urlscan.io/' },
+        { name: '🦠 VirusTotal - File/Hash Analysis', url: 'https://www.virustotal.com/' },
+        { name: '📊 Shodan - IP Intelligence', url: 'https://www.shodan.io/' },
+        { name: '🔗 URLVoid - URL Reputation', url: 'https://www.urlvoid.com/' },
+        { name: '📈 AlienVault OTX - Threat Intelligence', url: 'https://otx.alienvault.com/' }
+    ];
+}
+
+function classifyEvent(classification) {
+    if (!selectedEventId) return;
+    
+    const event = trainingEvents.find(e => e.id === selectedEventId);
+    if (!event || event.userClassification) return;
+
+    event.userClassification = classification;
+    classificationsComplete++;
+
+    selectEvent(selectedEventId);
+    updateStats();
+
+    if (classificationsComplete === trainingEvents.length) {
+        setTimeout(showResults, 500);
+    }
+}
+
+function startTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            showTimeUpResults();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('timeRemaining').textContent = display;
+    
+    const timerElement = document.getElementById('timeRemaining');
+    if (timeRemaining <= 300) {
+        timerElement.style.color = '#e53e3e';
+    } else if (timeRemaining <= 600) {
+        timerElement.style.color = '#ff9800';
+    } else {
+        timerElement.style.color = '#4CAF50';
+    }
+}
+
+function showTimeUpResults() {
+    showResults(true);
+}
+
+function updateStats() {
+    document.getElementById('classifiedEvents').textContent = classificationsComplete;
+    document.getElementById('remainingEvents').textContent = trainingEvents.length - classificationsComplete;
+    updateTimerDisplay();
+}
+
+function showResults(timeUp = false) {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    let correctCount = 0;
+    const resultsDetails = document.getElementById('resultsDetails');
+    
+    let detailsHTML = '';
+    
+    if (timeUp) {
+        detailsHTML += '<div style="color: #e53e3e; font-weight: bold; margin-bottom: 20px; text-align: center;">⏰ Time\'s Up!</div>';
+    }
+
+    trainingEvents.forEach(event => {
+        let isCorrect = false;
+        
+        if (event.userClassification) {
+            if (event.actualType === 'malicious' && (event.userClassification === 'malicious' || event.userClassification === 'suspicious')) {
+                isCorrect = true;
+            } else if (event.actualType === 'false_positive' && event.userClassification === 'false_positive') {
+                isCorrect = true;
+            }
+            
+            if (isCorrect) correctCount++;
+        }
+
+        const resultClass = event.userClassification ? (isCorrect ? 'correct' : 'incorrect') : 'incorrect';
+        const resultIcon = event.userClassification ? (isCorrect ? '✅' : '❌') : '⏸️';
+        const classificationText = event.userClassification ? 
+            (event.userClassification === 'false_positive' ? 'FALSE POSITIVE' : event.userClassification.toUpperCase()) : 
+            'NOT CLASSIFIED';
+        
+        detailsHTML += `
+            <div class="result-item ${resultClass}">
+                <div>
+                    <strong>${event.description}</strong><br>
+                    <small>Source: ${event.sourceIP} → ${event.destinationIP || event.destination}</small><br>
+                    <small>Actual: ${event.actualType === 'false_positive' ? 'FALSE POSITIVE' : event.actualType.toUpperCase()} | Your: ${classificationText}</small>
+                </div>
+                <div>${resultIcon}</div>
+            </div>
+        `;
+    });
+
+    resultsDetails.innerHTML = detailsHTML;
+    document.getElementById('finalScore').textContent = `${correctCount}/${trainingEvents.length}`;
+    document.getElementById('resultsModal').classList.remove('hidden');
+}
+
+function resetTraining() {
+    document.getElementById('resultsModal').classList.add('hidden');
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    initializeTraining();
+}
+
+function resetEventDetailsPanel() {
+    const panel = document.getElementById('eventDetailsPanel');
+    panel.classList.add('empty');
+    panel.innerHTML = `
+        <div>
+            <h3>Event Investigation</h3>
+            <p>Select an event from the list to investigate</p>
+            <br>
+            <p><strong>Investigation Steps:</strong></p>
+            <p>1. Analyze the event details and raw logs</p>
+            <p>2. Use external tools to investigate suspicious elements</p>
+            <p>3. Classify the event based on your findings</p>
+            <br>
+            <p><strong>Classification Options:</strong></p>
+            <p>• <strong>Malicious</strong> - Confirmed threat requiring action</p>
+            <p>• <strong>Suspicious</strong> - Potentially malicious activity</p>
+            <p>• <strong>False Positive</strong> - Benign activity, no threat</p>
+        </div>
+    `;
+}
+
+function toggleDocs() {
+    const panel = document.getElementById('docsPanel');
+    panel.classList.toggle('hidden');
+}
+
+// Initialize training on page load
+document.addEventListener('DOMContentLoaded', function() {
+    initializeTraining();
+});
+
+// Handle keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        resetEventDetailsPanel();
+        selectedEventId = null;
+        renderEvents();
+    }
+});
+
+// Add click-to-copy functionality for investigation values
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('copy-btn')) {
+        const textToCopy = e.target.getAttribute('data-copy');
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            e.target.classList.add('copy-success');
+            setTimeout(() => {
+                e.target.classList.remove('copy-success');
+            }, 1000);
+        }).catch(() => {
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(e.target);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+    } else if (e.target.classList.contains('selectable-text')) {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(e.target);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+});
