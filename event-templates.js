@@ -1,4 +1,4 @@
-// Event templates for SIEM training - 25 completely unique events
+// Event templates for SIEM training - 25 completely unique events with consistent severities
 const eventTemplates = {
     malicious: [
         // 1. C2 Communication
@@ -19,7 +19,11 @@ const eventTemplates = {
                 source_port: '49152',
                 destination_port: '8080',
                 process_name: 'chrome.exe',
-                raw_logs: '[2024-06-12 14:23:17] TCP connection established: 192.168.1.157:49152 -> 185.220.101.42:8080\n[2024-06-12 14:23:17] Process: chrome.exe (PID: 4892)\n[2024-06-12 14:27:40] Connection terminated by remote host'
+                raw_logs: '[2024-06-12 15:30:10] Network scanning activity detected\n[2024-06-12 15:30:11] Multiple TCP SYN packets to various hosts\n[2024-06-12 15:38:25] Scan completed'
+            }
+        }
+    ]
+}; 14:23:17] TCP connection established: 192.168.1.157:49152 -> 185.220.101.42:8080\n[2024-06-12 14:23:17] Process: chrome.exe (PID: 4892)\n[2024-06-12 14:27:40] Connection terminated by remote host'
             }
         },
         // 2. Malware Download
@@ -217,7 +221,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.156',
             destinationIP: '13.107.42.14',
             destination: 'download.windowsupdate.com',
-            severity: 'low',
+            severity: 'medium',
             details: {
                 hostname: 'WS-ACCOUNTING-04',
                 username: 'ACMECORP\\amanda.taylor',
@@ -234,11 +238,11 @@ const eventTemplates = {
         // 12. Database Backup
         {
             eventType: 'Database Access',
-            description: 'Database operation performed',
+            description: 'Database query executed',
             sourceIP: '192.168.1.205',
             destinationIP: '192.168.1.200',
             destination: 'DB-PROD-01.acmecorp.local',
-            severity: 'low',
+            severity: 'high',
             details: {
                 hostname: 'BACKUP-SRV-01',
                 username: 'ACMECORP\\svc.backup',
@@ -258,7 +262,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.98',
             destinationIP: '192.168.1.98',
             destination: 'localhost',
-            severity: 'low',
+            severity: 'medium',
             details: {
                 hostname: 'WS-IT-01',
                 username: 'ACMECORP\\tom.rogers',
@@ -280,7 +284,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.134',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
-            severity: 'low',
+            severity: 'high',
             details: {
                 hostname: 'WS-SALES-06',
                 username: 'ACMECORP\\peter.johnson',
@@ -302,7 +306,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.87',
             destinationIP: '52.97.145.162',
             destination: 'acmecorp.sharepoint.com',
-            severity: 'low',
+            severity: 'medium',
             details: {
                 hostname: 'WS-MARKETING-03',
                 username: 'ACMECORP\\michael.brown',
@@ -343,7 +347,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.123',
             destinationIP: '151.101.193.140',
             destination: 'download.adobe.com',
-            severity: 'low',
+            severity: 'high',
             details: {
                 hostname: 'WS-DESIGN-02',
                 username: 'ACMECORP\\alex.garcia',
@@ -364,7 +368,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.45',
             destinationIP: '192.168.1.210',
             destination: 'ACCESS-CONTROL-01',
-            severity: 'low',
+            severity: 'medium',
             details: {
                 badge_id: 'BADGE-1234',
                 username: 'ACMECORP\\james.wilson',
@@ -383,7 +387,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.112',
             destinationIP: '192.168.1.15',
             destination: 'mail.acmecorp.local',
-            severity: 'low',
+            severity: 'high',
             details: {
                 hostname: 'WS-FINANCE-08',
                 username: 'ACMECORP\\daniel.martinez',
@@ -403,7 +407,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.211',
             destinationIP: '192.168.1.211',
             destination: 'localhost',
-            severity: 'low',
+            severity: 'medium',
             details: {
                 hostname: 'WS-DEVOPS-02',
                 username: 'ACMECORP\\tom.rogers',
@@ -477,7 +481,7 @@ const eventTemplates = {
             sourceIP: '192.168.1.223',
             destinationIP: '192.168.1.223',
             destination: 'localhost',
-            severity: 'medium',
+            severity: 'high',
             details: {
                 hostname: 'WS-ACCOUNTING-07',
                 username: 'ACMECORP\\william.garcia',
@@ -504,8 +508,4 @@ const eventTemplates = {
                 targets: '254',
                 duration: '00:08:15',
                 tool_signature: 'Nmap-like behavior',
-                raw_logs: '[2024-06-12 15:30:10] Network scanning activity detected\n[2024-06-12 15:30:11] Multiple TCP SYN packets to various hosts\n[2024-06-12 15:38:25] Scan completed'
-            }
-        }
-    ]
-};
+                raw_logs: '[2024-06-12
