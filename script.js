@@ -3,7 +3,7 @@ let trainingEvents = [];
 let selectedEventId = null;
 let classificationsComplete = 0;
 let timerInterval = null;
-let timeRemaining = 30 * 60;
+let timeRemaining = 40 * 60;
 
 function smartShuffle(events) {
     // First, do a basic shuffle
@@ -115,7 +115,7 @@ function initializeTraining() {
     trainingEvents = [];
     classificationsComplete = 0;
     selectedEventId = null;
-    timeRemaining = 30 * 60;
+    timeRemaining = 40 * 60;
 
     // Use each template exactly once - no duplicates
     const allMaliciousTemplates = [...eventTemplates.malicious];
