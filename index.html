@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIEM Analysis Training</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2.0">
     <style>
-        /* Override any potential conflicts and ensure proper spacing */
-        .doc-section {
+        /* Force proper spacing with maximum specificity */
+        .docs-content .doc-section {
             margin-bottom: 35px !important;
             background: #2d4663 !important;
             padding: 25px !important;
@@ -17,26 +17,31 @@
             border-bottom: none !important;
         }
         
-        .doc-section p {
+        .docs-content .doc-section p {
             margin-bottom: 20px !important;
             line-height: 1.6 !important;
         }
         
-        .doc-section ul {
+        .docs-content .doc-section ul {
             margin: 20px 0 !important;
         }
         
-        .doc-section li {
+        .docs-content .doc-section li {
             padding: 6px 0 !important;
             line-height: 1.5 !important;
         }
         
-        .doc-section p + ul {
+        .docs-content .doc-section p + ul {
             margin-top: 25px !important;
         }
         
-        .doc-section ul + p {
+        .docs-content .doc-section ul + p {
             margin-top: 25px !important;
+        }
+        
+        /* Force remove any unwanted borders */
+        .docs-content .doc-section:last-child {
+            border-bottom: none !important;
         }
     </style>
 </head>
@@ -64,13 +69,14 @@
                 <div class="doc-section">
                     <h3>Company Overview</h3>
                     <p><strong>ACMECORP Inc.</strong> is a mid-size technology consulting firm founded in 2010, specializing in digital transformation and cloud solutions.</p>
-                    <br>
+                    
                     <p>We employ 35 staff across 3 locations:</p>
                     <ul>
                         <li><strong>HQ:</strong> New York (20 employees) - Executive, Sales, Marketing, Finance</li>
                         <li><strong>Tech Hub:</strong> Austin (10 employees) - Development, DevOps, IT Operations</li>
                         <li><strong>EU Office:</strong> London (5 employees) - European sales and support</li>
                     </ul>
+                    
                     <p><strong>Business Hours:</strong> Monday-Friday 8:00 AM - 6:00 PM local time</p>
                     <p><strong>Remote Work:</strong> Hybrid model - employees work remotely 2-3 days per week</p>
                 </div>
@@ -280,9 +286,9 @@
         </div>
     </div>
 
-    <script src="employees.js"></script>
-    <script src="event-templates.js"></script>
-    <script src="script.js"></script>
+    <script src="employees.js?v=2.0"></script>
+    <script src="event-templates.js?v=2.0"></script>
+    <script src="script.js?v=2.0"></script>
     <script>
         // Ensure employee table is populated when page loads
         document.addEventListener('DOMContentLoaded', function() {
