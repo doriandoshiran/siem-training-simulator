@@ -1,6 +1,7 @@
-// Event templates for SIEM training - Each event is unique with generic names
+// Event templates for SIEM training - 25 completely unique events
 const eventTemplates = {
     malicious: [
+        // 1. C2 Communication
         {
             eventType: 'Network Connection',
             description: 'Outbound connection established',
@@ -21,6 +22,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 14:23:17] TCP connection established: 192.168.1.157:49152 -> 185.220.101.42:8080\n[2024-06-12 14:23:17] Process: chrome.exe (PID: 4892)\n[2024-06-12 14:27:40] Connection terminated by remote host'
             }
         },
+        // 2. Malware Download
         {
             eventType: 'File Download',
             description: 'File downloaded from internet',
@@ -42,6 +44,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 11:45:23] HTTP GET /downloads/system_update.exe\n[2024-06-12 11:45:23] User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\n[2024-06-12 11:45:24] File saved: C:\\Users\\john.thompson\\Downloads\\system_update.exe'
             }
         },
+        // 3. Unauthorized DB Access
         {
             eventType: 'Database Access',
             description: 'Database query executed',
@@ -62,6 +65,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 02:15:32] Database connection established\n[2024-06-12 02:15:32] Query executed: SELECT * FROM employees WHERE salary > 100000 AND department = "Finance"\n[2024-06-12 02:15:33] 47 records returned'
             }
         },
+        // 4. Unauthorized USB (Intern)
         {
             eventType: 'USB Device',
             description: 'USB device connected',
@@ -83,6 +87,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 09:33:12] USB device connected: VID_1234&PID_5678\n[2024-06-12 09:33:13] Device mounted as drive F:\n[2024-06-12 09:33:15] File access began'
             }
         },
+        // 5. Crypto Mining
         {
             eventType: 'Web Request',
             description: 'HTTP request to external server',
@@ -103,6 +108,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 16:45:01] HTTPS POST to bitcoinminer.best/api/v2/pool/connect\n[2024-06-12 16:45:02] Response: 200 OK\n[2024-06-12 16:45:02] Data transfer initiated'
             }
         },
+        // 6. Malicious Email Attachment
         {
             eventType: 'Email Attachment',
             description: 'Email attachment processed',
@@ -124,6 +130,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 10:22:15] Email received from billing@totally-legitimate-company.org\n[2024-06-12 10:22:16] Attachment saved: invoice_march_2024.pdf.exe\n[2024-06-12 10:22:18] File executed by user'
             }
         },
+        // 7. DNS Tunneling
         {
             eventType: 'DNS Query',
             description: 'DNS resolution request',
@@ -143,6 +150,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 13:15:22] DNS query: cmd-and-control.tk (A record)\n[2024-06-12 13:15:23] Response: 45.61.136.207\n[2024-06-12 13:15:25] DNS query: cmd-and-control.tk (A record)'
             }
         },
+        // 8. After Hours Physical Access
         {
             eventType: 'Physical Access',
             description: 'Badge access recorded',
@@ -161,6 +169,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 23:45:17] Badge scan: BADGE-7789 at SERVER_ROOM_A\n[2024-06-12 23:45:17] Access granted\n[2024-06-12 00:02:40] Door secured'
             }
         },
+        // 9. Prohibited Software
         {
             eventType: 'Software Installation',
             description: 'Application installed',
@@ -179,6 +188,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 14:22:15] Installation initiated: uTorrent BitTorrent Client\n[2024-06-12 14:22:16] User approval prompt displayed\n[2024-06-12 14:22:18] Installation completed'
             }
         },
+        // 10. Trojan Execution
         {
             eventType: 'Process Execution',
             description: 'Process started',
@@ -200,6 +210,7 @@ const eventTemplates = {
         }
     ],
     falsePositive: [
+        // 11. Windows Update
         {
             eventType: 'Network Connection',
             description: 'Outbound connection established',
@@ -220,9 +231,10 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 09:15:30] Windows Update: Downloading KB5034441\n[2024-06-12 09:15:31] HTTPS connection to download.windowsupdate.com\n[2024-06-12 09:28:15] Download completed successfully'
             }
         },
+        // 12. Database Backup
         {
             eventType: 'Database Access',
-            description: 'Database query executed',
+            description: 'Database operation performed',
             sourceIP: '192.168.1.205',
             destinationIP: '192.168.1.200',
             destination: 'DB-PROD-01.acmecorp.local',
@@ -239,6 +251,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 02:00:15] Scheduled backup job initiated\n[2024-06-12 02:00:16] Backing up database: employee_records\n[2024-06-12 02:15:42] Backup completed successfully'
             }
         },
+        // 13. IT Admin USB
         {
             eventType: 'USB Device',
             description: 'USB device connected',
@@ -260,15 +273,16 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 14:22:10] IronKey device connected\n[2024-06-12 14:22:11] Device authenticated successfully\n[2024-06-12 14:22:12] Administrative tools copied'
             }
         },
+        // 14. Business Partner Email
         {
             eventType: 'Email Attachment',
             description: 'Email attachment processed',
-            sourceIP: '192.168.1.203',
+            sourceIP: '192.168.1.134',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
             severity: 'low',
             details: {
-                hostname: 'WS-DEVOPS-03',
+                hostname: 'WS-SALES-06',
                 username: 'ACMECORP\\peter.johnson',
                 filename: 'contract_2024_Q2.pdf',
                 file_size: '847392',
@@ -281,6 +295,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 11:30:22] Email from known partner: legal@techpartner.com\n[2024-06-12 11:30:23] PDF attachment scanned - clean\n[2024-06-12 11:30:24] Document opened in Adobe Reader'
             }
         },
+        // 15. SharePoint Access
         {
             eventType: 'Web Request',
             description: 'HTTP request to external server',
@@ -300,6 +315,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 15:20:15] SharePoint access: marketing documents\n[2024-06-12 15:20:16] Authentication successful\n[2024-06-12 15:20:17] File list retrieved'
             }
         },
+        // 16. VPN Connection
         {
             eventType: 'VPN Connection',
             description: 'Remote connection established',
@@ -320,6 +336,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 08:30:22] VPN connection request from 203.0.113.45\n[2024-06-12 08:30:23] Certificate authentication successful\n[2024-06-12 08:30:24] Tunnel established'
             }
         },
+        // 17. Adobe Download
         {
             eventType: 'File Download',
             description: 'File downloaded from internet',
@@ -340,10 +357,11 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 13:45:10] Adobe Creative Cloud update available\n[2024-06-12 13:45:11] Downloading from official Adobe servers\n[2024-06-12 13:52:33] Download verified and completed'
             }
         },
+        // 18. Normal Badge Access
         {
             eventType: 'Physical Access',
             description: 'Badge access recorded',
-            sourceIP: '192.168.1.99',
+            sourceIP: '192.168.1.45',
             destinationIP: '192.168.1.210',
             destination: 'ACCESS-CONTROL-01',
             severity: 'low',
@@ -358,15 +376,16 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 08:15:42] Badge scan: BADGE-1234 at MAIN_ENTRANCE\n[2024-06-12 08:15:42] Access granted - business hours\n[2024-06-12 08:15:45] Door secured'
             }
         },
+        // 19. Internal DNS
         {
             eventType: 'DNS Query',
             description: 'DNS resolution request',
-            sourceIP: '192.168.1.78',
+            sourceIP: '192.168.1.112',
             destinationIP: '192.168.1.15',
             destination: 'mail.acmecorp.local',
             severity: 'low',
             details: {
-                hostname: 'WS-FINANCE-05',
+                hostname: 'WS-FINANCE-08',
                 username: 'ACMECORP\\daniel.martinez',
                 query_type: 'A',
                 response_ip: '192.168.1.250',
@@ -377,15 +396,16 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 09:05:15] DNS query: mail.acmecorp.local (A record)\n[2024-06-12 09:05:15] Response: 192.168.1.250\n[2024-06-12 09:05:16] Outlook connection established'
             }
         },
+        // 20. VS Code Installation
         {
             eventType: 'Software Installation',
             description: 'Application installed',
-            sourceIP: '192.168.1.98',
-            destinationIP: '192.168.1.98',
+            sourceIP: '192.168.1.211',
+            destinationIP: '192.168.1.211',
             destination: 'localhost',
             severity: 'low',
             details: {
-                hostname: 'WS-IT-01',
+                hostname: 'WS-DEVOPS-02',
                 username: 'ACMECORP\\tom.rogers',
                 application: 'Visual Studio Code',
                 installer_path: 'C:\\AdminTools\\VSCodeUserSetup-x64-1.85.1.exe',
@@ -397,6 +417,7 @@ const eventTemplates = {
         }
     ],
     suspicious: [
+        // 21. Off-hours login
         {
             eventType: 'User Authentication',
             description: 'Remote login recorded',
@@ -413,10 +434,11 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 03:22:15] RDP login from 45.32.101.23\n[2024-06-12 03:22:16] Authentication successful\n[2024-06-12 05:37:48] Session terminated'
             }
         },
+        // 22. Multiple failed logins
         {
             eventType: 'Authentication Failure',
             description: 'Login attempt failed',
-            sourceIP: '192.168.1.134',
+            sourceIP: '192.168.1.167',
             destinationIP: '192.168.1.210',
             destination: 'DC-01.acmecorp.local',
             severity: 'medium',
@@ -425,19 +447,20 @@ const eventTemplates = {
                 failed_attempts: '8',
                 time_window: '00:05:23',
                 lock_status: 'Account temporarily locked',
-                source_workstation: 'WS-SALES-06',
+                source_workstation: 'WS-SALES-09',
                 raw_logs: '[2024-06-12 14:45:12] Login attempt failed for chris.thompson\n[2024-06-12 14:45:45] Login attempt failed for chris.thompson\n[2024-06-12 14:50:35] Account locked due to multiple failures'
             }
         },
+        // 23. Large file access
         {
             eventType: 'File Access',
             description: 'File system access recorded',
-            sourceIP: '192.168.1.145',
+            sourceIP: '192.168.1.198',
             destinationIP: '192.168.1.220',
             destination: 'FILE-SRV-01.acmecorp.local',
             severity: 'medium',
             details: {
-                hostname: 'WS-SALES-08',
+                hostname: 'WS-SALES-11',
                 username: 'ACMECORP\\sophia.lee',
                 files_accessed: '2847',
                 data_volume: '15.7GB',
@@ -447,15 +470,16 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 16:22:30] Bulk file access initiated\n[2024-06-12 16:22:31] Accessing Finance Reports share\n[2024-06-12 16:55:42] 2847 files accessed, 15.7GB transferred'
             }
         },
+        // 24. Encoded PowerShell
         {
             eventType: 'Process Execution',
             description: 'Process started',
-            sourceIP: '192.168.1.156',
-            destinationIP: '192.168.1.156',
+            sourceIP: '192.168.1.223',
+            destinationIP: '192.168.1.223',
             destination: 'localhost',
             severity: 'medium',
             details: {
-                hostname: 'WS-ACCOUNTING-04',
+                hostname: 'WS-ACCOUNTING-07',
                 username: 'ACMECORP\\william.garcia',
                 process: 'powershell.exe',
                 command_line: 'powershell.exe -ExecutionPolicy Bypass -EncodedCommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAEkATwAuAE0A',
@@ -464,15 +488,16 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 11:45:22] PowerShell execution detected\n[2024-06-12 11:45:23] Encoded command parameter used\n[2024-06-12 11:45:24] Process completed'
             }
         },
+        // 25. Network scanning
         {
             eventType: 'Network Scan',
             description: 'Network activity detected',
-            sourceIP: '192.168.1.203',
+            sourceIP: '192.168.1.244',
             destinationIP: '192.168.1.0/24',
             destination: 'Internal Network',
             severity: 'medium',
             details: {
-                hostname: 'WS-DEVOPS-03',
+                hostname: 'WS-DEVOPS-05',
                 username: 'ACMECORP\\mike.chen',
                 scan_type: 'TCP SYN Scan',
                 ports_scanned: '22,80,135,139,443,445,3389',
