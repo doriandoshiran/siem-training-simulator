@@ -48,8 +48,11 @@ const employees = [
 
 // Function to populate employee table
 function populateEmployeeTable() {
-    const tableBody = document.getElementById('employeeTableBody');
-    if (!tableBody) return;
+    const tableBody = document.querySelector('#employeeTable tbody');
+    if (!tableBody) {
+        console.error('Employee table body not found');
+        return;
+    }
     
     tableBody.innerHTML = '';
     
@@ -67,4 +70,13 @@ function populateEmployeeTable() {
         `;
         tableBody.appendChild(row);
     });
+    
+    console.log(`Populated employee table with ${employees.length} employees`);
+}
+
+// Auto-populate when script loads
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', populateEmployeeTable);
+} else {
+    populateEmployeeTable();
 }

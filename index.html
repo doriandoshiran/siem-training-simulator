@@ -248,5 +248,13 @@
     <script src="employees.js"></script>
     <script src="event-templates.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Ensure employee table is populated when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof populateEmployeeTable === 'function') {
+                populateEmployeeTable();
+            }
+        });
+    </script>
 </body>
 </html>
