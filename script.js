@@ -69,10 +69,9 @@ function initializeTraining() {
     selectedEventId = null;
     timeRemaining = 30 * 60;
 
-    // Generate 10 malicious events
-    const maliciousTemplates = [...eventTemplates.malicious];
-    for (let i = 0; i < 10; i++) {
-        const template = maliciousTemplates[i % maliciousTemplates.length];
+    // Use each template exactly once - no duplicates
+    const allMaliciousTemplates = [...eventTemplates.malicious];
+    allMaliciousTemplates.forEach(template => {
         const event = {
             id: Math.random().toString(36).substr(2, 9),
             timestamp: generateRandomTime(),
@@ -89,12 +88,11 @@ function initializeTraining() {
         };
         event.rawData = generateRawEventData(event);
         trainingEvents.push(event);
-    }
+    });
 
-    // Generate 10 false positive events
-    const fpTemplates = [...eventTemplates.falsePositive];
-    for (let i = 0; i < 10; i++) {
-        const template = fpTemplates[i % fpTemplates.length];
+    // Use each false positive template exactly once
+    const allFalsePositiveTemplates = [...eventTemplates.falsePositive];
+    allFalsePositiveTemplates.forEach(template => {
         const event = {
             id: Math.random().toString(36).substr(2, 9),
             timestamp: generateRandomTime(),
@@ -111,12 +109,11 @@ function initializeTraining() {
         };
         event.rawData = generateRawEventData(event);
         trainingEvents.push(event);
-    }
+    });
 
-    // Generate 5 suspicious events
-    const suspiciousTemplates = [...eventTemplates.suspicious];
-    for (let i = 0; i < 5; i++) {
-        const template = suspiciousTemplates[i % suspiciousTemplates.length];
+    // Use each suspicious template exactly once
+    const allSuspiciousTemplates = [...eventTemplates.suspicious];
+    allSuspiciousTemplates.forEach(template => {
         const event = {
             id: Math.random().toString(36).substr(2, 9),
             timestamp: generateRandomTime(),
@@ -133,8 +130,9 @@ function initializeTraining() {
         };
         event.rawData = generateRawEventData(event);
         trainingEvents.push(event);
-    }
+    });
 
+    // Shuffle all events randomly
     trainingEvents.sort(() => Math.random() - 0.5);
     renderEvents();
     updateStats();
