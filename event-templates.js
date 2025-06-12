@@ -19,11 +19,7 @@ const eventTemplates = {
                 source_port: '49152',
                 destination_port: '8080',
                 process_name: 'chrome.exe',
-                raw_logs: '[2024-06-12 15:30:10] Network scanning activity detected\n[2024-06-12 15:30:11] Multiple TCP SYN packets to various hosts\n[2024-06-12 15:38:25] Scan completed'
-            }
-        }
-    ]
-}; 14:23:17] TCP connection established: 192.168.1.157:49152 -> 185.220.101.42:8080\n[2024-06-12 14:23:17] Process: chrome.exe (PID: 4892)\n[2024-06-12 14:27:40] Connection terminated by remote host'
+                raw_logs: '[2024-06-12 14:23:17] TCP connection established: 192.168.1.157:49152 -> 185.220.101.42:8080\n[2024-06-12 14:23:17] Process: chrome.exe (PID: 4892)\n[2024-06-12 14:27:40] Connection terminated by remote host'
             }
         },
         // 2. Malware Download
@@ -508,4 +504,8 @@ const eventTemplates = {
                 targets: '254',
                 duration: '00:08:15',
                 tool_signature: 'Nmap-like behavior',
-                raw_logs: '[2024-06-12
+                raw_logs: '[2024-06-12 15:30:10] Network scanning activity detected\n[2024-06-12 15:30:11] Multiple TCP SYN packets to various hosts\n[2024-06-12 15:38:25] Scan completed'
+            }
+        }
+    ]
+};
