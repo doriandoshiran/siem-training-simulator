@@ -1,9 +1,9 @@
-// Event templates for SIEM training - Each event is unique
+// Event templates for SIEM training - Each event is unique with generic names
 const eventTemplates = {
     malicious: [
         {
             eventType: 'Network Connection',
-            description: 'Outbound TCP connection to external IP address',
+            description: 'Outbound connection established',
             sourceIP: '192.168.1.157',
             destinationIP: '185.220.101.42',
             destination: '185.220.101.42:8080',
@@ -23,7 +23,7 @@ const eventTemplates = {
         },
         {
             eventType: 'File Download',
-            description: 'Executable file downloaded from internet',
+            description: 'File downloaded from internet',
             sourceIP: '192.168.1.89',
             destinationIP: '94.232.47.156',
             destination: 'update-manager.com',
@@ -44,7 +44,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Database Access',
-            description: 'Database query executed by user',
+            description: 'Database query executed',
             sourceIP: '192.168.1.188',
             destinationIP: '192.168.1.200',
             destination: 'DB-PROD-01.acmecorp.local',
@@ -64,7 +64,7 @@ const eventTemplates = {
         },
         {
             eventType: 'USB Device',
-            description: 'External storage device connected',
+            description: 'USB device connected',
             sourceIP: '192.168.1.67',
             destinationIP: '192.168.1.67',
             destination: 'localhost',
@@ -85,7 +85,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Web Request',
-            description: 'HTTPS connection to external service',
+            description: 'HTTP request to external server',
             sourceIP: '192.168.1.178',
             destinationIP: '198.12.75.112',
             destination: 'bitcoinminer.best',
@@ -105,7 +105,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Email Attachment',
-            description: 'Email attachment downloaded and executed',
+            description: 'Email attachment processed',
             sourceIP: '192.168.1.145',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
@@ -126,7 +126,7 @@ const eventTemplates = {
         },
         {
             eventType: 'DNS Query',
-            description: 'Multiple DNS queries to external domain',
+            description: 'DNS resolution request',
             sourceIP: '192.168.1.203',
             destinationIP: '45.61.136.207',
             destination: 'cmd-and-control.tk',
@@ -145,7 +145,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Physical Access',
-            description: 'Badge access to secure area',
+            description: 'Badge access recorded',
             sourceIP: '192.168.1.99',
             destinationIP: '192.168.1.210',
             destination: 'ACCESS-CONTROL-01',
@@ -163,7 +163,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Software Installation',
-            description: 'Application installation attempt',
+            description: 'Application installed',
             sourceIP: '192.168.1.122',
             destinationIP: '192.168.1.122',
             destination: 'localhost',
@@ -180,8 +180,8 @@ const eventTemplates = {
             }
         },
         {
-            eventType: 'File Execution',
-            description: 'Executable file launched by user',
+            eventType: 'Process Execution',
+            description: 'Process started',
             sourceIP: '192.168.1.78',
             destinationIP: '192.168.1.78',
             destination: 'localhost',
@@ -202,7 +202,7 @@ const eventTemplates = {
     falsePositive: [
         {
             eventType: 'Network Connection',
-            description: 'HTTPS connection to Microsoft update servers',
+            description: 'Outbound connection established',
             sourceIP: '192.168.1.156',
             destinationIP: '13.107.42.14',
             destination: 'download.windowsupdate.com',
@@ -222,7 +222,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Database Access',
-            description: 'Automated backup process accessing database',
+            description: 'Database query executed',
             sourceIP: '192.168.1.205',
             destinationIP: '192.168.1.200',
             destination: 'DB-PROD-01.acmecorp.local',
@@ -241,7 +241,7 @@ const eventTemplates = {
         },
         {
             eventType: 'USB Device',
-            description: 'Corporate USB device connected by IT administrator',
+            description: 'USB device connected',
             sourceIP: '192.168.1.98',
             destinationIP: '192.168.1.98',
             destination: 'localhost',
@@ -262,7 +262,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Email Attachment',
-            description: 'PDF document downloaded from corporate partner',
+            description: 'Email attachment processed',
             sourceIP: '192.168.1.203',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
@@ -283,7 +283,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Web Request',
-            description: 'Access to company cloud storage service',
+            description: 'HTTP request to external server',
             sourceIP: '192.168.1.87',
             destinationIP: '52.97.145.162',
             destination: 'acmecorp.sharepoint.com',
@@ -301,8 +301,8 @@ const eventTemplates = {
             }
         },
         {
-            eventType: 'Network Connection',
-            description: 'VPN connection from authorized remote worker',
+            eventType: 'VPN Connection',
+            description: 'Remote connection established',
             sourceIP: '203.0.113.45',
             destinationIP: '198.51.100.10',
             destination: 'vpn.acmecorp.com',
@@ -322,7 +322,7 @@ const eventTemplates = {
         },
         {
             eventType: 'File Download',
-            description: 'Software update download from vendor website',
+            description: 'File downloaded from internet',
             sourceIP: '192.168.1.123',
             destinationIP: '151.101.193.140',
             destination: 'download.adobe.com',
@@ -342,7 +342,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Physical Access',
-            description: 'Employee badge access during business hours',
+            description: 'Badge access recorded',
             sourceIP: '192.168.1.99',
             destinationIP: '192.168.1.210',
             destination: 'ACCESS-CONTROL-01',
@@ -360,7 +360,7 @@ const eventTemplates = {
         },
         {
             eventType: 'DNS Query',
-            description: 'DNS resolution for corporate email server',
+            description: 'DNS resolution request',
             sourceIP: '192.168.1.78',
             destinationIP: '192.168.1.15',
             destination: 'mail.acmecorp.local',
@@ -379,7 +379,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Software Installation',
-            description: 'Approved software installation by IT admin',
+            description: 'Application installed',
             sourceIP: '192.168.1.98',
             destinationIP: '192.168.1.98',
             destination: 'localhost',
@@ -398,8 +398,8 @@ const eventTemplates = {
     ],
     suspicious: [
         {
-            eventType: 'Login Event',
-            description: 'Remote login outside business hours',
+            eventType: 'User Authentication',
+            description: 'Remote login recorded',
             sourceIP: '45.32.101.23',
             destinationIP: '192.168.1.210',
             destination: 'DC-01.acmecorp.local',
@@ -414,8 +414,8 @@ const eventTemplates = {
             }
         },
         {
-            eventType: 'Authentication',
-            description: 'Multiple failed login attempts',
+            eventType: 'Authentication Failure',
+            description: 'Login attempt failed',
             sourceIP: '192.168.1.134',
             destinationIP: '192.168.1.210',
             destination: 'DC-01.acmecorp.local',
@@ -431,7 +431,7 @@ const eventTemplates = {
         },
         {
             eventType: 'File Access',
-            description: 'Large volume of files accessed',
+            description: 'File system access recorded',
             sourceIP: '192.168.1.145',
             destinationIP: '192.168.1.220',
             destination: 'FILE-SRV-01.acmecorp.local',
@@ -449,7 +449,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Process Execution',
-            description: 'PowerShell script execution with encoded commands',
+            description: 'Process started',
             sourceIP: '192.168.1.156',
             destinationIP: '192.168.1.156',
             destination: 'localhost',
@@ -466,7 +466,7 @@ const eventTemplates = {
         },
         {
             eventType: 'Network Scan',
-            description: 'Port scanning activity detected',
+            description: 'Network activity detected',
             sourceIP: '192.168.1.203',
             destinationIP: '192.168.1.0/24',
             destination: 'Internal Network',
