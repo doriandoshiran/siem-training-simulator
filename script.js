@@ -69,9 +69,9 @@ function initializeTraining() {
     selectedEventId = null;
     timeRemaining = 30 * 60;
 
-    // Generate 14 malicious events
+    // Generate 10 malicious events
     const maliciousTemplates = [...eventTemplates.malicious];
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 10; i++) {
         const template = maliciousTemplates[i % maliciousTemplates.length];
         const event = {
             id: Math.random().toString(36).substr(2, 9),
@@ -91,9 +91,9 @@ function initializeTraining() {
         trainingEvents.push(event);
     }
 
-    // Generate 11 false positive events
+    // Generate 10 false positive events
     const fpTemplates = [...eventTemplates.falsePositive];
-    for (let i = 0; i < 11; i++) {
+    for (let i = 0; i < 10; i++) {
         const template = fpTemplates[i % fpTemplates.length];
         const event = {
             id: Math.random().toString(36).substr(2, 9),
@@ -106,6 +106,28 @@ function initializeTraining() {
             destination: template.destination,
             details: template.details,
             actualType: 'false_positive',
+            userClassification: null,
+            rawData: null
+        };
+        event.rawData = generateRawEventData(event);
+        trainingEvents.push(event);
+    }
+
+    // Generate 5 suspicious events
+    const suspiciousTemplates = [...eventTemplates.suspicious];
+    for (let i = 0; i < 5; i++) {
+        const template = suspiciousTemplates[i % suspiciousTemplates.length];
+        const event = {
+            id: Math.random().toString(36).substr(2, 9),
+            timestamp: generateRandomTime(),
+            severity: template.severity,
+            eventType: template.eventType,
+            description: template.description,
+            sourceIP: template.sourceIP,
+            destinationIP: template.destinationIP,
+            destination: template.destination,
+            details: template.details,
+            actualType: 'suspicious',
             userClassification: null,
             rawData: null
         };
@@ -353,6 +375,8 @@ function showResults(timeUp = false) {
         
         if (event.userClassification) {
             if (event.actualType === 'malicious' && (event.userClassification === 'malicious' || event.userClassification === 'suspicious')) {
+                isCorrect = true;
+            } else if (event.actualType === 'suspicious' && (event.userClassification === 'suspicious' || event.userClassification === 'malicious')) {
                 isCorrect = true;
             } else if (event.actualType === 'false_positive' && event.userClassification === 'false_positive') {
                 isCorrect = true;

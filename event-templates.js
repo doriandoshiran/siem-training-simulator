@@ -1,4 +1,4 @@
-// Event templates for SIEM training - 25 completely unique events with consistent severities
+// Event templates for SIEM training - 25 events with severity tied to event type, not classification
 const eventTemplates = {
     malicious: [
         // 1. C2 Communication
