@@ -1,63 +1,70 @@
-// Employee Access Matrix Data
+// Employee database for ACMECORP
 const employees = [
-    {username: "james.wilson", department: "Executive", role: "CEO", databaseAccess: "Read-Only", adminRights: "No", physicalAccess: "24/7", workSchedule: "Flexible", remoteAccess: "Yes"},
-    {username: "sarah.martinez", department: "Marketing", role: "Manager", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM", remoteAccess: "Yes"},
-    {username: "michael.davis", department: "Marketing", role: "Specialist", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM", remoteAccess: "No"},
-    {username: "emily.rodriguez", department: "Marketing", role: "Coordinator", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 6 PM", remoteAccess: "No"},
-    {username: "john.thompson", department: "Finance", role: "Manager", databaseAccess: "Billing Only", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 6 PM", remoteAccess: "Yes"},
-    {username: "jennifer.brown", department: "Finance", role: "Analyst", databaseAccess: "Billing Only", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "Yes"},
-    {username: "robert.garcia", department: "Finance", role: "Analyst", databaseAccess: "Billing Only", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "No"},
-    {username: "lisa.anderson", department: "HR", role: "Manager", databaseAccess: "Employee Records", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "Yes"},
-    {username: "david.miller", department: "HR", role: "Specialist", databaseAccess: "Employee Records", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM", remoteAccess: "No"},
-    {username: "amanda.taylor", department: "Sales", role: "Director", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 7 PM", remoteAccess: "Yes"},
-    {username: "christopher.lee", department: "Sales", role: "Manager", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 6 PM", remoteAccess: "Yes"},
-    {username: "jennifer.davis", department: "Sales", role: "Rep", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 6 PM", remoteAccess: "Yes"},
-    {username: "matthew.white", department: "Sales", role: "Rep", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 6 PM", remoteAccess: "No"},
-    {username: "stephanie.clark", department: "Sales", role: "Rep", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "No"},
-    {username: "daniel.moore", department: "Sales", role: "Rep", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 6 PM", remoteAccess: "No"},
-    {username: "lauren.hall", department: "Sales", role: "Coordinator", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "No"},
-    {username: "kevin.young", department: "Operations", role: "Manager", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "7 AM - 6 PM", remoteAccess: "Yes"},
-    {username: "michelle.king", department: "Operations", role: "Analyst", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "No"},
-    {username: "david.wilson", department: "IT", role: "Director", databaseAccess: "No", adminRights: "Yes", physicalAccess: "Extended", workSchedule: "7 AM - 7 PM", remoteAccess: "Yes"},
-    {username: "brian.johnson", department: "IT", role: "Admin", databaseAccess: "No", adminRights: "Yes", physicalAccess: "Extended", workSchedule: "8 AM - 6 PM", remoteAccess: "Yes"},
-    {username: "ashley.adams", department: "IT", role: "Support", databaseAccess: "No", adminRights: "Limited", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "No"},
-    {username: "mike.chen", department: "DevOps", role: "Lead Engineer", databaseAccess: "No", adminRights: "Server Admin", physicalAccess: "Standard", workSchedule: "Remote", remoteAccess: "Yes"},
-    {username: "alex.smith", department: "DevOps", role: "Engineer", databaseAccess: "No", adminRights: "Limited", physicalAccess: "Standard", workSchedule: "Remote", remoteAccess: "Yes"},
-    {username: "tyler.jones", department: "Development", role: "Senior Dev", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "10 AM - 6 PM", remoteAccess: "Yes"},
-    {username: "natalie.green", department: "Development", role: "Developer", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM", remoteAccess: "No"},
-    {username: "carlos.rivera", department: "Development", role: "Developer", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 6 PM", remoteAccess: "No"},
-    {username: "samantha.parker", department: "Development", role: "Junior Dev", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM", remoteAccess: "No"},
-    {username: "jessica.lewis", department: "QA", role: "Lead Tester", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM", remoteAccess: "No"},
-    {username: "rachel.hill", department: "Design", role: "Lead Designer", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "10 AM - 6 PM", remoteAccess: "Yes"},
-    {username: "nicole.baker", department: "EU Sales", role: "Manager", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM GMT", remoteAccess: "Yes"},
-    {username: "james.cooper", department: "EU Sales", role: "Rep", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM GMT", remoteAccess: "No"},
-    {username: "hannah.wright", department: "EU Support", role: "Specialist", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 6 PM GMT", remoteAccess: "No"},
-    {username: "oliver.edwards", department: "EU Support", role: "Specialist", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "9 AM - 5 PM GMT", remoteAccess: "No"},
-    {username: "sophie.turner", department: "EU Operations", role: "Coordinator", databaseAccess: "No", adminRights: "No", physicalAccess: "Standard", workSchedule: "8 AM - 5 PM GMT", remoteAccess: "No"},
-    {username: "rebecca.carter", department: "Internship", role: "Marketing Intern", databaseAccess: "No", adminRights: "No", physicalAccess: "Escorted Only", workSchedule: "9 AM - 5 PM", remoteAccess: "No"},
-    {username: "richard.hughes", department: "Security", role: "Guard", databaseAccess: "No", adminRights: "No", physicalAccess: "24/7", workSchedule: "Night Shift", remoteAccess: "No"},
-    {username: "jacob.turner", department: "Security", role: "Guard", databaseAccess: "No", adminRights: "No", physicalAccess: "24/7", workSchedule: "Day Shift", remoteAccess: "No"},
-    {username: "joshua.phillips", department: "Facilities", role: "Maintenance", databaseAccess: "No", adminRights: "No", physicalAccess: "Extended", workSchedule: "6 AM - 4 PM", remoteAccess: "No"}
+    // Executive Team
+    { name: "James Wilson", department: "Executive", role: "CEO", database_access: "Executive Dashboard", admin_rights: "Full", physical_access: "24/7", work_schedule: "Flexible", remote_access: "Authorized" },
+    { name: "Sarah Martinez", department: "Executive", role: "CTO", database_access: "Technical Systems", admin_rights: "Technical", physical_access: "24/7", work_schedule: "Flexible", remote_access: "Authorized" },
+    
+    // IT Department
+    { name: "Tom Rogers", department: "IT", role: "IT Administrator", database_access: "All Systems", admin_rights: "Full", physical_access: "24/7", work_schedule: "Mon-Fri 8-6", remote_access: "Authorized" },
+    { name: "David Wilson", department: "IT", role: "Network Admin", database_access: "Network Logs", admin_rights: "Network", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Authorized" },
+    { name: "Mike Chen", department: "IT", role: "DevOps Engineer", database_access: "Application Logs", admin_rights: "Limited", physical_access: "Business Hours", work_schedule: "Mon-Fri 8-6", remote_access: "Authorized" },
+    
+    // Sales Team
+    { name: "Lisa Anderson", department: "Sales", role: "Sales Manager", database_access: "Customer Data", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 8-6", remote_access: "Authorized" },
+    { name: "Robert Kim", department: "Sales", role: "Sales Representative", database_access: "Customer Contacts", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Authorized" },
+    { name: "Sophia Lee", department: "Sales", role: "Sales Representative", database_access: "Customer Contacts", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Authorized" },
+    { name: "Chris Thompson", department: "Sales", role: "Account Executive", database_access: "Account Data", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 8-6", remote_access: "Authorized" },
+    
+    // Marketing Team
+    { name: "Amanda Taylor", department: "Marketing", role: "Marketing Manager", database_access: "Marketing Analytics", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Authorized" },
+    { name: "Michael Brown", department: "Marketing", role: "Content Creator", database_access: "None", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Authorized" },
+    { name: "Jennifer White", department: "Marketing", role: "Digital Specialist", database_access: "None", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Authorized" },
+    
+    // Finance Team
+    { name: "John Thompson", department: "Finance", role: "CFO", database_access: "Financial Data", admin_rights: "Financial", physical_access: "Business Hours", work_schedule: "Mon-Fri 8-6", remote_access: "Authorized" },
+    { name: "Daniel Martinez", department: "Finance", role: "Accountant", database_access: "Accounting Records", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Limited" },
+    { name: "William Garcia", department: "Finance", role: "Financial Analyst", database_access: "Financial Reports", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Limited" },
+    
+    // HR Team
+    { name: "Emma Davis", department: "HR", role: "HR Manager", database_access: "Employee Records", admin_rights: "HR", physical_access: "Business Hours", work_schedule: "Mon-Fri 8-5", remote_access: "Authorized" },
+    { name: "Anna Clark", department: "HR", role: "HR Specialist", database_access: "Employee Data", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-5", remote_access: "Limited" },
+    
+    // Design Team
+    { name: "Alex Garcia", department: "Design", role: "Lead Designer", database_access: "Design Assets", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-6", remote_access: "Authorized" },
+    
+    // DevOps Team (Austin)
+    { name: "Peter Johnson", department: "DevOps", role: "Senior DevOps", database_access: "Application Logs", admin_rights: "Limited", physical_access: "Business Hours", work_schedule: "Mon-Fri 8-6", remote_access: "Authorized" },
+    
+    // Security
+    { name: "Richard Hughes", department: "Security", role: "Security Guard", database_access: "None", admin_rights: "None", physical_access: "24/7", work_schedule: "Shift Work", remote_access: "None" },
+    { name: "Mark Stevens", department: "Security", role: "Night Security", database_access: "None", admin_rights: "None", physical_access: "Night Shift", work_schedule: "6PM-6AM", remote_access: "None" },
+    
+    // Service Accounts
+    { name: "svc.backup", department: "System", role: "Backup Service", database_access: "All Databases", admin_rights: "Service", physical_access: "N/A", work_schedule: "24/7 Automated", remote_access: "N/A" },
+    
+    // Temporary Staff
+    { name: "Rebecca Carter", department: "HR", role: "Intern", database_access: "None", admin_rights: "None", physical_access: "Business Hours", work_schedule: "Mon-Fri 9-4", remote_access: "None" }
 ];
 
 // Function to populate employee table
 function populateEmployeeTable() {
     const tableBody = document.getElementById('employeeTableBody');
-    if (tableBody) {
-        tableBody.innerHTML = employees.map(emp => `
-            <tr>
-                <td>${emp.username}</td>
-                <td>${emp.department}</td>
-                <td>${emp.role}</td>
-                <td>${emp.databaseAccess}</td>
-                <td>${emp.adminRights}</td>
-                <td>${emp.physicalAccess}</td>
-                <td>${emp.workSchedule}</td>
-                <td>${emp.remoteAccess}</td>
-            </tr>
-        `).join('');
-    }
+    if (!tableBody) return;
+    
+    tableBody.innerHTML = '';
+    
+    employees.forEach(employee => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${employee.name}</td>
+            <td>${employee.department}</td>
+            <td>${employee.role}</td>
+            <td>${employee.database_access}</td>
+            <td>${employee.admin_rights}</td>
+            <td>${employee.physical_access}</td>
+            <td>${employee.work_schedule}</td>
+            <td>${employee.remote_access}</td>
+        `;
+        tableBody.appendChild(row);
+    });
 }
-
-// Load employee data when DOM is ready
-document.addEventListener('DOMContentLoaded', populateEmployeeTable);

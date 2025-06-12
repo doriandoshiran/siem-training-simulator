@@ -33,8 +33,8 @@ const eventTemplates = {
                 username: 'ACMECORP\\john.thompson',
                 filename: 'system_update.exe',
                 file_size: '2847264',
-                hash_md5: 'd41d8cd98f00b204e9800998ecf8427e',
-                hash_sha256: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                hash_md5: '44d88612fea8a8f36de82e1278abb02f',
+                hash_sha256: '275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f',
                 download_url: 'http://update-manager.com/downloads/system_update.exe',
                 source_port: '443',
                 destination_port: '80',
@@ -106,17 +106,17 @@ const eventTemplates = {
         {
             eventType: 'Email Attachment',
             description: 'Email attachment downloaded and executed',
-            sourceIP: '192.168.1.67',
+            sourceIP: '192.168.1.145',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
             severity: 'high',
             details: {
-                hostname: 'WS-HR-02',
+                hostname: 'WS-SALES-08',
                 username: 'ACMECORP\\lisa.anderson',
                 filename: 'invoice_march_2024.pdf.exe',
                 file_size: '1847392',
-                hash_md5: 'a665a45920422f9d417e4867efdc4fb8',
-                hash_sha256: '275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f',
+                hash_md5: '5d41402abc4b2a76b9719d911017c592',
+                hash_sha256: 'aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f',
                 sender: 'billing@totally-legitimate-company.org',
                 source_port: '25',
                 destination_port: '25',
@@ -160,6 +160,43 @@ const eventTemplates = {
                 location: 'New York HQ - Floor 3',
                 raw_logs: '[2024-06-12 23:45:17] Badge scan: BADGE-7789 at SERVER_ROOM_A\n[2024-06-12 23:45:17] Access granted\n[2024-06-12 00:02:40] Door secured'
             }
+        },
+        {
+            eventType: 'Software Installation',
+            description: 'Application installation attempt',
+            sourceIP: '192.168.1.122',
+            destinationIP: '192.168.1.122',
+            destination: 'localhost',
+            severity: 'medium',
+            details: {
+                hostname: 'WS-MARKETING-05',
+                username: 'ACMECORP\\jennifer.white',
+                application: 'uTorrent BitTorrent Client',
+                installer_path: 'C:\\Users\\jennifer.white\\Downloads\\uTorrent.exe',
+                installation_time: '14:22:15',
+                version: '3.5.5.45852',
+                hash_md5: 'c4036527b1ec8890dbe1bb65717dc81f',
+                raw_logs: '[2024-06-12 14:22:15] Installation initiated: uTorrent BitTorrent Client\n[2024-06-12 14:22:16] User approval prompt displayed\n[2024-06-12 14:22:18] Installation completed'
+            }
+        },
+        {
+            eventType: 'File Execution',
+            description: 'Executable file launched by user',
+            sourceIP: '192.168.1.78',
+            destinationIP: '192.168.1.78',
+            destination: 'localhost',
+            severity: 'high',
+            details: {
+                hostname: 'WS-FINANCE-05',
+                username: 'ACMECORP\\robert.kim',
+                filename: 'svchost32.exe',
+                file_path: 'C:\\Users\\robert.kim\\AppData\\Local\\Temp\\svchost32.exe',
+                execution_time: '11:33:47',
+                hash_md5: 'e6f9f6e6fde9e8f8d8d8c8c8b8b8a8a8',
+                hash_sha256: 'a665a45920422f9d417e4867efdc4fb8',
+                parent_process: 'explorer.exe',
+                raw_logs: '[2024-06-12 11:33:47] Process execution: svchost32.exe\n[2024-06-12 11:33:48] Parent process: explorer.exe (PID: 1234)\n[2024-06-12 11:33:49] Network connections initiated'
+            }
         }
     ],
     falsePositive: [
@@ -172,7 +209,7 @@ const eventTemplates = {
             severity: 'low',
             details: {
                 hostname: 'WS-ACCOUNTING-04',
-                username: 'ACMECORP\\jennifer.white',
+                username: 'ACMECORP\\amanda.taylor',
                 protocol: 'HTTPS',
                 bytes_sent: '2847',
                 bytes_received: '15629384',
@@ -211,7 +248,7 @@ const eventTemplates = {
             severity: 'low',
             details: {
                 hostname: 'WS-IT-01',
-                username: 'ACMECORP\\admin.rogers',
+                username: 'ACMECORP\\tom.rogers',
                 device_type: 'USB_Mass_Storage',
                 vendor_id: '0x13FE',
                 product_id: '0x4200',
@@ -226,13 +263,13 @@ const eventTemplates = {
         {
             eventType: 'Email Attachment',
             description: 'PDF document downloaded from corporate partner',
-            sourceIP: '192.168.1.145',
+            sourceIP: '192.168.1.203',
             destinationIP: '192.168.1.250',
             destination: 'mail.acmecorp.local',
             severity: 'low',
             details: {
-                hostname: 'WS-SALES-08',
-                username: 'ACMECORP\\robert.kim',
+                hostname: 'WS-DEVOPS-03',
+                username: 'ACMECORP\\peter.johnson',
                 filename: 'contract_2024_Q2.pdf',
                 file_size: '847392',
                 hash_md5: 'c4ca4238a0b923820dcc509a6f75849b',
@@ -253,7 +290,7 @@ const eventTemplates = {
             severity: 'low',
             details: {
                 hostname: 'WS-MARKETING-03',
-                username: 'ACMECORP\\amanda.taylor',
+                username: 'ACMECORP\\michael.brown',
                 url: 'https://acmecorp.sharepoint.com/sites/marketing/documents',
                 method: 'GET',
                 status_code: '200',
@@ -272,7 +309,7 @@ const eventTemplates = {
             severity: 'low',
             details: {
                 external_ip: '203.0.113.45',
-                username: 'ACMECORP\\peter.johnson',
+                username: 'ACMECORP\\emma.davis',
                 protocol: 'OpenVPN',
                 vpn_server: 'vpn.acmecorp.com',
                 connection_time: '08:30:22',
@@ -292,7 +329,7 @@ const eventTemplates = {
             severity: 'low',
             details: {
                 hostname: 'WS-DESIGN-02',
-                username: 'ACMECORP\\creative.team',
+                username: 'ACMECORP\\alex.garcia',
                 filename: 'AdobeCreativeCloud_Installer.exe',
                 file_size: '4629384',
                 hash_md5: 'b026324c6904b2a9cb4b88d6d61c81d1',
@@ -312,7 +349,7 @@ const eventTemplates = {
             severity: 'low',
             details: {
                 badge_id: 'BADGE-1234',
-                username: 'ACMECORP\\sarah.martinez',
+                username: 'ACMECORP\\james.wilson',
                 access_point: 'MAIN_ENTRANCE',
                 access_time: '08:15:42',
                 door_status: 'OPENED',
@@ -330,7 +367,7 @@ const eventTemplates = {
             severity: 'low',
             details: {
                 hostname: 'WS-FINANCE-05',
-                username: 'ACMECORP\\accounting.dept',
+                username: 'ACMECORP\\daniel.martinez',
                 query_type: 'A',
                 response_ip: '192.168.1.250',
                 query_count: '3',
@@ -338,6 +375,111 @@ const eventTemplates = {
                 source_port: '53',
                 destination_port: '53',
                 raw_logs: '[2024-06-12 09:05:15] DNS query: mail.acmecorp.local (A record)\n[2024-06-12 09:05:15] Response: 192.168.1.250\n[2024-06-12 09:05:16] Outlook connection established'
+            }
+        },
+        {
+            eventType: 'Software Installation',
+            description: 'Approved software installation by IT admin',
+            sourceIP: '192.168.1.98',
+            destinationIP: '192.168.1.98',
+            destination: 'localhost',
+            severity: 'low',
+            details: {
+                hostname: 'WS-IT-01',
+                username: 'ACMECORP\\tom.rogers',
+                application: 'Visual Studio Code',
+                installer_path: 'C:\\AdminTools\\VSCodeUserSetup-x64-1.85.1.exe',
+                installation_time: '10:15:30',
+                version: '1.85.1',
+                hash_md5: '8b50d92c9b7d4ad9e1e79e9c7c6b8a5d',
+                raw_logs: '[2024-06-12 10:15:30] Administrative installation: Visual Studio Code\n[2024-06-12 10:15:31] Installation source: Official Microsoft repository\n[2024-06-12 10:15:45] Installation completed successfully'
+            }
+        }
+    ],
+    suspicious: [
+        {
+            eventType: 'Login Event',
+            description: 'Remote login outside business hours',
+            sourceIP: '45.32.101.23',
+            destinationIP: '192.168.1.210',
+            destination: 'DC-01.acmecorp.local',
+            severity: 'medium',
+            details: {
+                username: 'ACMECORP\\anna.clark',
+                login_time: '03:22:15',
+                login_method: 'Remote Desktop',
+                source_location: 'Unknown',
+                session_duration: '02:15:33',
+                raw_logs: '[2024-06-12 03:22:15] RDP login from 45.32.101.23\n[2024-06-12 03:22:16] Authentication successful\n[2024-06-12 05:37:48] Session terminated'
+            }
+        },
+        {
+            eventType: 'Authentication',
+            description: 'Multiple failed login attempts',
+            sourceIP: '192.168.1.134',
+            destinationIP: '192.168.1.210',
+            destination: 'DC-01.acmecorp.local',
+            severity: 'medium',
+            details: {
+                username: 'ACMECORP\\chris.thompson',
+                failed_attempts: '8',
+                time_window: '00:05:23',
+                lock_status: 'Account temporarily locked',
+                source_workstation: 'WS-SALES-06',
+                raw_logs: '[2024-06-12 14:45:12] Login attempt failed for chris.thompson\n[2024-06-12 14:45:45] Login attempt failed for chris.thompson\n[2024-06-12 14:50:35] Account locked due to multiple failures'
+            }
+        },
+        {
+            eventType: 'File Access',
+            description: 'Large volume of files accessed',
+            sourceIP: '192.168.1.145',
+            destinationIP: '192.168.1.220',
+            destination: 'FILE-SRV-01.acmecorp.local',
+            severity: 'medium',
+            details: {
+                hostname: 'WS-SALES-08',
+                username: 'ACMECORP\\sophia.lee',
+                files_accessed: '2847',
+                data_volume: '15.7GB',
+                access_time: '16:22:30',
+                file_types: '.xlsx, .pdf, .docx',
+                share_path: '\\\\FILE-SRV-01\\Finance\\Reports',
+                raw_logs: '[2024-06-12 16:22:30] Bulk file access initiated\n[2024-06-12 16:22:31] Accessing Finance Reports share\n[2024-06-12 16:55:42] 2847 files accessed, 15.7GB transferred'
+            }
+        },
+        {
+            eventType: 'Process Execution',
+            description: 'PowerShell script execution with encoded commands',
+            sourceIP: '192.168.1.156',
+            destinationIP: '192.168.1.156',
+            destination: 'localhost',
+            severity: 'medium',
+            details: {
+                hostname: 'WS-ACCOUNTING-04',
+                username: 'ACMECORP\\william.garcia',
+                process: 'powershell.exe',
+                command_line: 'powershell.exe -ExecutionPolicy Bypass -EncodedCommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAEkATwAuAE0A',
+                execution_time: '11:45:22',
+                parent_process: 'explorer.exe',
+                raw_logs: '[2024-06-12 11:45:22] PowerShell execution detected\n[2024-06-12 11:45:23] Encoded command parameter used\n[2024-06-12 11:45:24] Process completed'
+            }
+        },
+        {
+            eventType: 'Network Scan',
+            description: 'Port scanning activity detected',
+            sourceIP: '192.168.1.203',
+            destinationIP: '192.168.1.0/24',
+            destination: 'Internal Network',
+            severity: 'medium',
+            details: {
+                hostname: 'WS-DEVOPS-03',
+                username: 'ACMECORP\\mike.chen',
+                scan_type: 'TCP SYN Scan',
+                ports_scanned: '22,80,135,139,443,445,3389',
+                targets: '254',
+                duration: '00:08:15',
+                tool_signature: 'Nmap-like behavior',
+                raw_logs: '[2024-06-12 15:30:10] Network scanning activity detected\n[2024-06-12 15:30:11] Multiple TCP SYN packets to various hosts\n[2024-06-12 15:38:25] Scan completed'
             }
         }
     ]
