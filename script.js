@@ -563,6 +563,7 @@ function resetEventDetailsPanel() {
 function toggleDocs() {
     const panel = document.getElementById('docsPanel');
     const toolsPanel = document.getElementById('toolsPanel');
+    const contentArea = document.querySelector('.content-area');
     
     // Close tools panel if open
     if (!toolsPanel.classList.contains('hidden')) {
@@ -570,11 +571,19 @@ function toggleDocs() {
     }
     
     panel.classList.toggle('hidden');
+    
+    // Add/remove margin to content area to prevent overlap
+    if (panel.classList.contains('hidden')) {
+        contentArea.classList.remove('panel-open');
+    } else {
+        contentArea.classList.add('panel-open');
+    }
 }
 
 function toggleTools() {
     const panel = document.getElementById('toolsPanel');
     const docsPanel = document.getElementById('docsPanel');
+    const contentArea = document.querySelector('.content-area');
     
     // Close docs panel if open
     if (!docsPanel.classList.contains('hidden')) {
@@ -582,6 +591,13 @@ function toggleTools() {
     }
     
     panel.classList.toggle('hidden');
+    
+    // Add/remove margin to content area to prevent overlap
+    if (panel.classList.contains('hidden')) {
+        contentArea.classList.remove('panel-open');
+    } else {
+        contentArea.classList.add('panel-open');
+    }
 }
 
 // Initialize training on page load
@@ -592,6 +608,15 @@ document.addEventListener('DOMContentLoaded', function() {
 // Handle keyboard shortcuts
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
+        const docsPanel = document.getElementById('docsPanel');
+        const toolsPanel = document.getElementById('toolsPanel');
+        const contentArea = document.querySelector('.content-area');
+        
+        // Close panels
+        docsPanel.classList.add('hidden');
+        toolsPanel.classList.add('hidden');
+        contentArea.classList.remove('panel-open');
+        
         resetEventDetailsPanel();
         selectedEventId = null;
         renderEvents();

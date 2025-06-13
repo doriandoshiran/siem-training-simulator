@@ -114,7 +114,7 @@ body {
     position: fixed;
     top: 0;
     right: 0;
-    width: 80%;
+    width: 50%; /* Reduced from 80% to 50% */
     height: 100vh;
     background: #1a2332;
     border-left: 2px solid #3a5a7a;
@@ -306,6 +306,12 @@ body {
     display: flex;
     flex: 1;
     min-height: 600px;
+    transition: margin-right 0.3s ease; /* Add smooth transition */
+}
+
+/* Add margin when panels are open */
+.content-area.panel-open {
+    margin-right: 50%; /* Match panel width */
 }
 
 .events-list {
@@ -766,6 +772,14 @@ body {
 
 /* RESPONSIVE DESIGN */
 @media (max-width: 1200px) {
+    .docs-panel, .tools-panel {
+        width: 60%; /* Slightly wider on smaller screens */
+    }
+    
+    .content-area.panel-open {
+        margin-right: 60%;
+    }
+    
     .events-list {
         width: 50%;
     }
@@ -777,13 +791,17 @@ body {
     .fields-container {
         grid-template-columns: 1fr;
     }
-    
-    .tool-links {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 768px) {
+    .docs-panel, .tools-panel {
+        width: 85%; /* Nearly full width on mobile */
+    }
+    
+    .content-area.panel-open {
+        margin-right: 85%;
+    }
+    
     .content-area {
         flex-direction: column;
     }
@@ -791,9 +809,5 @@ body {
     .events-list,
     .event-details-panel {
         width: 100%;
-    }
-    
-    .tool-links {
-        grid-template-columns: 1fr;
     }
 }
