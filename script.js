@@ -373,7 +373,7 @@ function selectEvent(eventId) {
         // Check if this field should be copyable
         const isCopyable = isCopyableValue(key, value);
         const copyIcon = isCopyable ? 
-            `<div class="copy-icon" onclick="copyToClipboard('${value}', this)" title="Copy to clipboard">📋</div>` : 
+            `<div class="copy-icon" onclick="copyToClipboard('${value.replace(/'/g, '\\\'').replace(/"/g, '&quot;')}', this)" title="Copy to clipboard">📋</div>` : 
             '';
         
         detailsHTML += `
