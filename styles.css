@@ -22,8 +22,10 @@ body {
 
 .logo {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 15px;
+    flex: 1;
+    text-align: center;
 }
 
 .logo-text {
@@ -84,7 +86,33 @@ body {
     background: #357abd;
 }
 
-.docs-panel {
+/* Investigation Tools Tab */
+.tools-tab {
+    position: fixed;
+    top: 200px;
+    right: 0;
+    z-index: 999;
+}
+
+.tools-toggle {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 6px 0 0 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.2s;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+}
+
+.tools-toggle:hover {
+    background: #45a049;
+}
+
+.docs-panel, .tools-panel {
     position: fixed;
     top: 0;
     right: 0;
@@ -98,16 +126,16 @@ body {
     transition: transform 0.3s ease;
 }
 
-.docs-panel:not(.hidden) {
+.docs-panel:not(.hidden), .tools-panel:not(.hidden) {
     transform: translateX(0);
 }
 
-.docs-content {
+.docs-content, .tools-content {
     padding: 25px;
     color: #e8f4f8;
 }
 
-.close-docs {
+.close-docs, .close-tools {
     position: absolute;
     top: 15px;
     right: 20px;
@@ -533,38 +561,90 @@ body {
     max-height: 250px;
 }
 
-.investigation-tools {
-    background: #1a2332;
-    padding: 18px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    border: 1px solid #3a5a7a;
+/* Investigation Tools Styles */
+.tools-section {
+    background: #2d4663;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 25px;
 }
 
-.investigation-tools h4 {
-    margin-bottom: 12px;
-    color: #ffffff;
+.tools-section h3 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #3a5a7a;
+    padding-bottom: 8px;
 }
 
 .tool-links {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .tool-link {
     color: #4CAF50;
     text-decoration: none;
-    font-size: 11px;
-    padding: 8px 10px;
-    background: #2d4663;
-    border-radius: 4px;
+    font-size: 12px;
+    padding: 12px 15px;
+    background: #1a2332;
+    border-radius: 6px;
     transition: background 0.2s;
     text-align: center;
+    border: 1px solid #3a5a7a;
 }
 
 .tool-link:hover {
     background: #3a5a7a;
+}
+
+.quick-copy-section {
+    background: #1a2332;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #3a5a7a;
+}
+
+.quick-copy-section h4 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.copy-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.copy-item {
+    background: #2d4663;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #3a5a7a;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+.copy-item:hover {
+    background: #4CAF50;
+    color: #1a2332;
+}
+
+.copy-item-label {
+    font-size: 10px;
+    color: #a0c4e0;
+    display: block;
+    margin-bottom: 2px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.copy-item-value {
+    font-weight: bold;
+    word-break: break-all;
 }
 
 .results-modal {
@@ -722,6 +802,10 @@ body {
     }
     
     .tool-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .copy-items {
         grid-template-columns: 1fr;
     }
 }
@@ -734,5 +818,9 @@ body {
     .events-list,
     .event-details-panel {
         width: 100%;
+    }
+    
+    .tool-links {
+        grid-template-columns: 1fr;
     }
 }

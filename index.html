@@ -5,21 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIEM Analysis Training</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
-    <link rel="stylesheet" href="styles.css?v=3.0">
+    <link rel="stylesheet" href="styles.css?v=3.1">
 </head>
 <body>
     <div class="header">
+        <div class="training-badge">TRAINING MODE</div>
         <div class="logo">
             <div class="logo-text">SIEM Analysis Training</div>
             <div class="logo-subtitle">Security Event Investigation</div>
         </div>
-        <div class="training-badge">TRAINING MODE</div>
+        <div style="width: 100px;"></div> <!-- Spacer for centering -->
     </div>
 
     <div class="main-container">
         <!-- Company Documentation Tab -->
         <div class="docs-tab" id="docsTab">
             <button class="docs-toggle" onclick="toggleDocs()">📋 Company Documentation</button>
+        </div>
+
+        <!-- Investigation Tools Tab -->
+        <div class="tools-tab" id="toolsTab">
+            <button class="tools-toggle" onclick="toggleTools()">🔧 Investigation Tools</button>
         </div>
 
         <!-- Company Documentation Panel -->
@@ -167,6 +173,39 @@
             </div>
         </div>
 
+        <!-- Investigation Tools Panel -->
+        <div class="tools-panel hidden" id="toolsPanel">
+            <div class="tools-content">
+                <button class="close-tools" onclick="toggleTools()">✕</button>
+                <h2>Investigation Tools & Quick Copy</h2>
+                
+                <div class="tools-section">
+                    <h3>External Investigation Tools</h3>
+                    <div class="tool-links">
+                        <a href="https://www.abuseipdb.com/" target="_blank" class="tool-link">🔍 AbuseIPDB<br><small>IP Reputation Check</small></a>
+                        <a href="https://urlscan.io/" target="_blank" class="tool-link">🌐 URLScan.io<br><small>URL Analysis</small></a>
+                        <a href="https://www.virustotal.com/" target="_blank" class="tool-link">🦠 VirusTotal<br><small>File/Hash Analysis</small></a>
+                        <a href="https://www.shodan.io/" target="_blank" class="tool-link">📊 Shodan<br><small>IP Intelligence</small></a>
+                        <a href="https://www.urlvoid.com/" target="_blank" class="tool-link">🔗 URLVoid<br><small>Domain Reputation</small></a>
+                        <a href="https://otx.alienvault.com/" target="_blank" class="tool-link">📈 OTX AlienVault<br><small>Threat Intelligence</small></a>
+                    </div>
+                </div>
+
+                <div class="tools-section">
+                    <h3>Quick Copy Values</h3>
+                    <div class="quick-copy-section">
+                        <h4>📋 Click to copy investigation values from selected event:</h4>
+                        <div class="copy-items" id="copyItems">
+                            <div class="copy-item">
+                                <span class="copy-item-label">No event selected</span>
+                                <span class="copy-item-value">Select an event to see copyable values</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stats-left">
@@ -250,7 +289,7 @@
 
     <script src="employees.js?v=3.0"></script>
     <script src="event-templates.js?v=3.0"></script>
-    <script src="script.js?v=3.0"></script>
+    <script src="script.js?v=3.1"></script>
     <script>
         // Ensure employee table is populated when page loads
         document.addEventListener('DOMContentLoaded', function() {
