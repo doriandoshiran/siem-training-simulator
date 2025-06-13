@@ -627,3 +627,4 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('click', function(e) {
     // Removed old copy functionality since we now use individual copy icons
 });
+        
