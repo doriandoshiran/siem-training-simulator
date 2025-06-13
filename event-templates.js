@@ -35,8 +35,8 @@ const eventTemplates = {
                 username: 'ACMECORP\\john.thompson',
                 filename: 'system_update.exe',
                 file_size: '2847264',
-                hash_md5: '44d88612fea8a8f36de82e1278abb02f',
-                hash_sha256: '275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f',
+                hash_md5: '3395856ce81f2b7382dee72602f798b6',
+                hash_sha256: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
                 download_url: 'http://update-manager.com/downloads/system_update.exe',
                 source_port: '443',
                 destination_port: '80',
@@ -121,8 +121,8 @@ const eventTemplates = {
                 username: 'ACMECORP\\lisa.anderson',
                 filename: 'invoice_march_2024.pdf.exe',
                 file_size: '1847392',
-                hash_md5: '5d41402abc4b2a76b9719d911017c592',
-                hash_sha256: 'aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f',
+                hash_md5: 'f2ca1bb6c7e907d06dafe4687d7c6357',
+                hash_sha256: '2cf24dba4f21d4288a9d7f0b7e5b8b2c5e8e6f7a9b2c3d4e5f6a7b8c9d0e1f2a',
                 sender: 'billing@totally-legitimate-company.org',
                 source_port: '25',
                 destination_port: '25',
@@ -184,7 +184,7 @@ const eventTemplates = {
                 installer_path: 'C:\\Users\\jennifer.white\\Downloads\\uTorrent.exe',
                 installation_time: '14:22:15',
                 version: '3.5.5.45852',
-                hash_md5: 'c4036527b1ec8890dbe1bb65717dc81f',
+                hash_md5: '8f14e45fceea167a5a36dedd4bea2543',
                 raw_logs: '[2024-06-12 14:22:15] Installation initiated: uTorrent BitTorrent Client\n[2024-06-12 14:22:16] User approval prompt displayed\n[2024-06-12 14:22:18] Installation completed'
             }
         },
@@ -202,8 +202,8 @@ const eventTemplates = {
                 filename: 'svchost32.exe',
                 file_path: 'C:\\Users\\robert.kim\\AppData\\Local\\Temp\\svchost32.exe',
                 execution_time: '11:33:47',
-                hash_md5: 'a94a8fe5ccb19ba61c4c0873d391e987',
-                hash_sha256: 'ed01b6cd451e6b67ccb8d31cb90fb9a82b8ddda60b9c0bb6c62e78f8651c8fd8',
+                hash_md5: 'e6f9f6e6fde9e8f8d8d8c8c8b8b8a8a8',
+                hash_sha256: '6dcd4ce23d88e2ee9568ba546c007c63d9131c1b7c0bb1e9c6a4e7e6f8b8c8d8',
                 parent_process: 'explorer.exe',
                 raw_logs: '[2024-06-12 11:33:47] Process execution: svchost32.exe\n[2024-06-12 11:33:48] Parent process: explorer.exe (PID: 1234)\n[2024-06-12 11:33:49] Network connections initiated'
             }
