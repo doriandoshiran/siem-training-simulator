@@ -188,7 +188,7 @@ const eventTemplates = {
                 raw_logs: '[2024-06-12 14:22:15] Installation initiated: uTorrent BitTorrent Client\n[2024-06-12 14:22:16] User approval prompt displayed\n[2024-06-12 14:22:18] Installation completed'
             }
         },
-        // 10. Trojan Execution
+        // 10. Trojan Execution - FIXED HASH
         {
             eventType: 'Process Execution',
             description: 'Process started',
@@ -202,8 +202,8 @@ const eventTemplates = {
                 filename: 'svchost32.exe',
                 file_path: 'C:\\Users\\robert.kim\\AppData\\Local\\Temp\\svchost32.exe',
                 execution_time: '11:33:47',
-                hash_md5: 'e6f9f6e6fde9e8f8d8d8c8c8b8b8a8a8',
-                hash_sha256: 'a665a45920422f9d417e4867efdc4fb8',
+                hash_md5: 'a94a8fe5ccb19ba61c4c0873d391e987',
+                hash_sha256: 'ed01b6cd451e6b67ccb8d31cb90fb9a82b8ddda60b9c0bb6c62e78f8651c8fd8',
                 parent_process: 'explorer.exe',
                 raw_logs: '[2024-06-12 11:33:47] Process execution: svchost32.exe\n[2024-06-12 11:33:48] Parent process: explorer.exe (PID: 1234)\n[2024-06-12 11:33:49] Network connections initiated'
             }
