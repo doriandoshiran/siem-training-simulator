@@ -233,110 +233,36 @@ function renderEvents() {
     });
 }
 
-function extractCopyableValues(event) {
-    const copyableValues = [];
+function generateInvestigationTools(event) {
+    return [
+        { name: '🔍 AbuseIPDB', url: 'https://www.abuseipdb.com/' },
+        { name: '🌐 URLScan.io', url: 'https://urlscan.io/' },
+        { name: '🦠 VirusTotal', url: 'https://www.virustotal.com/' },
+        { name: '📊 Shodan', url: 'https://www.shodan.io/' },
+        { name: '🔗 URLVoid', url: 'https://www.urlvoid.com/' },
+        { name: '📈 OTX AlienVault', url: 'https://otx.alienvault.com/' }
+    ];
+}
+
+function isCopyableValue(key, value) {
+    // Only make specific fields copyable: IPs, URLs, usernames, hashes
+    const copyableFields = ['sourceIP', 'destinationIP', 'destination', 'username', 'hash_md5', 'hash_sha256', 'url', 'download_url', 'domain'];
     
-    // Add IP addresses
-    if (event.sourceIP && event.sourceIP !== 'localhost') {
-        copyableValues.push({ label: 'Source IP', value: event.sourceIP, type: 'ip' });
-    }
-    if (event.destinationIP && event.destinationIP !== 'localhost' && event.destinationIP !== event.sourceIP) {
-        copyableValues.push({ label: 'Destination IP', value: event.destinationIP, type: 'ip' });
-    }
-    
-    // Add URLs and domains
-    if (event.destination && !event.destination.match(/^\d+\.\d+\.\d+\.\d+/)) {
-        const domain = event.destination.split(':')[0];
-        copyableValues.push({ label: 'Domain', value: domain, type: 'url' });
-    }
-    
-    // Check details for URLs
-    if (event.details.url) {
-        copyableValues.push({ label: 'URL', value: event.details.url, type: 'url' });
-    }
-    if (event.details.download_url) {
-        copyableValues.push({ label: 'Download URL', value: event.details.download_url, type: 'url' });
+    if (copyableFields.includes(key)) {
+        return true;
     }
     
-    // Add usernames
-    if (event.details.username) {
-        const username = event.details.username.replace('ACMECORP\\', '');
-        copyableValues.push({ label: 'Username', value: username, type: 'username' });
-    }
-    
-    // Add hashes
-    if (event.details.hash_md5) {
-        copyableValues.push({ label: 'MD5 Hash', value: event.details.hash_md5, type: 'hash' });
-    }
-    if (event.details.hash_sha256) {
-        copyableValues.push({ label: 'SHA256 Hash', value: event.details.hash_sha256, type: 'hash' });
-    }
-    
-    // Add filenames if they look suspicious or interesting
-    if (event.details.filename && (
-        event.details.filename.includes('.exe') || 
-        event.details.filename.includes('.pdf') ||
-        event.details.filename.includes('.zip') ||
-        event.details.filename.includes('.dll')
+    // Check if it's a filename with suspicious extensions
+    if (key === 'filename' && (
+        value.includes('.exe') || 
+        value.includes('.pdf') ||
+        value.includes('.zip') ||
+        value.includes('.dll')
     )) {
-        copyableValues.push({ label: 'Filename', value: event.details.filename, type: 'filename' });
+        return true;
     }
     
-    return copyableValues;
-}
-
-function updateCopyableValues(event) {
-    const copyItems = document.getElementById('copyItems');
-    
-    if (!event) {
-        copyItems.innerHTML = `
-            <div class="copy-item">
-                <span class="copy-item-label">No event selected</span>
-                <span class="copy-item-value">Select an event to see copyable values</span>
-            </div>
-        `;
-        return;
-    }
-    
-    const copyableValues = extractCopyableValues(event);
-    
-    if (copyableValues.length === 0) {
-        copyItems.innerHTML = `
-            <div class="copy-item">
-                <span class="copy-item-label">No copyable values</span>
-                <span class="copy-item-value">This event has no IPs, URLs, usernames, or hashes to copy</span>
-            </div>
-        `;
-        return;
-    }
-    
-    copyItems.innerHTML = copyableValues.map(item => `
-        <div class="copy-item" onclick="copyToClipboard('${item.value}', this)">
-            <span class="copy-item-label">${item.label}</span>
-            <span class="copy-item-value">${item.value}</span>
-        </div>
-    `).join('');
-}
-
-function copyToClipboard(text, element) {
-    navigator.clipboard.writeText(text).then(() => {
-        const originalBg = element.style.backgroundColor;
-        element.style.backgroundColor = '#4CAF50';
-        element.style.color = '#1a2332';
-        
-        setTimeout(() => {
-            element.style.backgroundColor = originalBg;
-            element.style.color = '';
-        }, 1000);
-    }).catch(() => {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-    });
+    return false;
 }
 
 function selectEvent(eventId) {
@@ -349,6 +275,7 @@ function selectEvent(eventId) {
     panel.classList.remove('empty');
 
     const isClassified = event.userClassification !== null;
+    const investigationTools = generateInvestigationTools(event);
 
     const formattedTimestamp = new Date(event.timestamp).toLocaleString('en-US', {
         year: 'numeric',
@@ -359,7 +286,7 @@ function selectEvent(eventId) {
         hour12: false
     }).replace(',', '');
 
-    // Create the improved layout HTML without investigation tools
+    // Create the layout HTML with investigation tools back in event details
     let detailsHTML = `
         <div class="event-details-content">
             <div class="event-header">
@@ -380,12 +307,20 @@ function selectEvent(eventId) {
         </div>`;
     }
 
-    // Add tip about investigation tools
+    // Investigation tools section
     detailsHTML += `
-        <div style="background: #1a2332; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #3a5a7a; text-align: center;">
-            <div style="color: #4CAF50; font-weight: bold; margin-bottom: 8px;">💡 Investigation Tip</div>
-            <div style="font-size: 12px; color: #a0c4e0;">
-                Use the <strong>🔧 Investigation Tools</strong> panel (top right) to access threat intelligence sites and copy suspicious values for analysis
+        <div class="investigation-tools">
+            <h4>Investigation Tools</h4>
+            <div class="tool-links">`;
+    
+    investigationTools.forEach(tool => {
+        detailsHTML += `<a href="${tool.url}" target="_blank" class="tool-link">${tool.name}</a>`;
+    });
+
+    detailsHTML += `
+            </div>
+            <div style="margin-top: 12px; font-size: 11px; color: #a0c4e0; text-align: center;">
+                💡 Click on highlighted values below to copy them for investigation
             </div>
         </div>
 
@@ -398,17 +333,17 @@ function selectEvent(eventId) {
             
             <div class="field-group">
                 <div class="field-label">Source IP</div>
-                <div class="field-value">${event.sourceIP}</div>
+                <div class="field-value"><span class="selectable-text copy-btn" data-copy="${event.sourceIP}">${event.sourceIP}</span></div>
             </div>
             
             <div class="field-group">
                 <div class="field-label">Destination IP</div>
-                <div class="field-value">${event.destinationIP}</div>
+                <div class="field-value"><span class="selectable-text copy-btn" data-copy="${event.destinationIP}">${event.destinationIP}</span></div>
             </div>
             
             <div class="field-group">
                 <div class="field-label">Destination</div>
-                <div class="field-value">${event.destination}</div>
+                <div class="field-value"><span class="selectable-text copy-btn" data-copy="${event.destination}">${event.destination}</span></div>
             </div>`;
 
     // Add all event details in two-column layout
@@ -421,10 +356,16 @@ function selectEvent(eventId) {
         
         const fieldClass = isLongField ? 'field-group full-width' : 'field-group';
         
+        // Check if this field should be copyable
+        const isCopyable = isCopyableValue(key, value);
+        const fieldValue = isCopyable ? 
+            `<span class="selectable-text copy-btn" data-copy="${value}">${value}</span>` : 
+            value;
+        
         detailsHTML += `
             <div class="${fieldClass}">
                 <div class="field-label">${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
-                <div class="field-value">${value}</div>
+                <div class="field-value">${fieldValue}</div>
             </div>`;
     });
 
@@ -446,10 +387,6 @@ function selectEvent(eventId) {
     `;
 
     panel.innerHTML = detailsHTML;
-    
-    // Update the copyable values in the tools panel
-    updateCopyableValues(event);
-    
     renderEvents();
 }
 
@@ -604,32 +541,10 @@ function resetEventDetailsPanel() {
             <p>• <strong>False Positive</strong> - Benign activity, no threat</p>
         </div>
     `;
-    
-    // Reset the copyable values
-    updateCopyableValues(null);
 }
 
 function toggleDocs() {
     const panel = document.getElementById('docsPanel');
-    const toolsPanel = document.getElementById('toolsPanel');
-    
-    // Close tools panel if open
-    if (!toolsPanel.classList.contains('hidden')) {
-        toolsPanel.classList.add('hidden');
-    }
-    
-    panel.classList.toggle('hidden');
-}
-
-function toggleTools() {
-    const panel = document.getElementById('toolsPanel');
-    const docsPanel = document.getElementById('docsPanel');
-    
-    // Close docs panel if open
-    if (!docsPanel.classList.contains('hidden')) {
-        docsPanel.classList.add('hidden');
-    }
-    
     panel.classList.toggle('hidden');
 }
 
@@ -641,23 +556,13 @@ document.addEventListener('DOMContentLoaded', function() {
 // Handle keyboard shortcuts
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        // Close panels
-        document.getElementById('docsPanel').classList.add('hidden');
-        document.getElementById('toolsPanel').classList.add('hidden');
-        
-        // Reset event details if no classification made
-        if (selectedEventId) {
-            const event = trainingEvents.find(e => e.id === selectedEventId);
-            if (!event || !event.userClassification) {
-                resetEventDetailsPanel();
-                selectedEventId = null;
-                renderEvents();
-            }
-        }
+        resetEventDetailsPanel();
+        selectedEventId = null;
+        renderEvents();
     }
 });
 
-// Add click-to-copy functionality for investigation values (legacy support)
+// Add click-to-copy functionality for investigation values
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('copy-btn')) {
         const textToCopy = e.target.getAttribute('data-copy');
