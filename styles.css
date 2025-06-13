@@ -87,7 +87,7 @@ body {
 /* Investigation Tools Tab */
 .tools-tab {
     position: fixed;
-    top: 280px; /* Changed from 220px to 280px to move it lower */
+    top: 320px; /* Changed from 280px to 320px to move it lower */
     right: 0;
     z-index: 999;
 }

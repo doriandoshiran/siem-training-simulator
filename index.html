@@ -1,4 +1,99 @@
-<div class="doc-section">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIEM Analysis Training</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+    <link rel="stylesheet" href="styles.css?v=3.2">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-text">SIEM Analysis Training</div>
+            <div class="logo-subtitle">Security Event Investigation</div>
+        </div>
+        <div class="training-badge">TRAINING MODE</div>
+    </div>
+
+    <div class="main-container">
+        <!-- Company Documentation Tab -->
+        <div class="docs-tab" id="docsTab">
+            <button class="docs-toggle" onclick="toggleDocs()">📋 Company Documentation</button>
+        </div>
+
+        <!-- Investigation Tools Tab -->
+        <div class="tools-tab" id="toolsTab">
+            <button class="tools-toggle" onclick="toggleTools()">🔧 Investigation Tools</button>
+        </div>
+
+        <!-- Company Documentation Panel -->
+        <div class="docs-panel hidden" id="docsPanel">
+            <div class="docs-content">
+                <button class="close-docs" onclick="toggleDocs()">✕</button>
+                <h2>ACMECORP Security Documentation</h2>
+                
+                <div class="doc-section">
+                    <h3>Company Overview</h3>
+                    <p><strong>ACMECORP Inc.</strong> is a mid-size technology consulting firm founded in 2010, specializing in digital transformation and cloud solutions.</p>
+                    
+                    <p>We employ 35 staff across 3 locations:</p>
+                    <ul>
+                        <li><strong>HQ:</strong> New York (20 employees) - Executive, Sales, Marketing, Finance</li>
+                        <li><strong>Tech Hub:</strong> Austin (10 employees) - Development, DevOps, IT Operations</li>
+                        <li><strong>EU Office:</strong> London (5 employees) - European sales and support</li>
+                    </ul>
+                    
+                    <p><strong>Business Hours:</strong> Monday-Friday 08:00 - 18:00 local time</p>
+                    <p><strong>Remote Work:</strong> Hybrid model - employees work remotely 2-3 days per week</p>
+                </div>
+
+                <div class="doc-section">
+                    <h3>Access Control Policy</h3>
+                    <div class="policy-grid">
+                        <div class="policy-item">
+                            <h4>Database Access</h4>
+                            <ul>
+                                <li><span class="policy-allowed">✓</span> Database Admins (svc.backup, steve.kumar)</li>
+                                <li><span class="policy-allowed">✓</span> Finance Team (customer billing data only)</li>
+                                <li><span class="policy-allowed">✓</span> HR Team (employee records only)</li>
+                                <li><span class="policy-denied">✗</span> Security Guards, Contractors, Interns</li>
+                                <li><span class="policy-denied">✗</span> Outside business hours without approval</li>
+                            </ul>
+                        </div>
+                        <div class="policy-item">
+                            <h4>Physical Access</h4>
+                            <ul>
+                                <li><span class="policy-allowed">✓</span> Employees: 06:00 - 22:00</li>
+                                <li><span class="policy-allowed">✓</span> Security Guards: 24/7</li>
+                                <li><span class="policy-allowed">✓</span> Cleaning Crew: 22:00 - 06:00</li>
+                                <li><span class="policy-denied">✗</span> Contractors after hours</li>
+                                <li><span class="policy-denied">✗</span> Visitors without escort</li>
+                            </ul>
+                        </div>
+                        <div class="policy-item">
+                            <h4>USB/External Media</h4>
+                            <ul>
+                                <li><span class="policy-allowed">✓</span> IT Department (approved devices)</li>
+                                <li><span class="policy-allowed">✓</span> Executives (encrypted drives only)</li>
+                                <li><span class="policy-denied">✗</span> General employees</li>
+                                <li><span class="policy-denied">✗</span> Contractors and temps</li>
+                                <li><span class="policy-denied">✗</span> Personal USB devices</li>
+                            </ul>
+                        </div>
+                        <div class="policy-item">
+                            <h4>Remote Access</h4>
+                            <ul>
+                                <li><span class="policy-allowed">✓</span> Employees via corporate VPN</li>
+                                <li><span class="policy-allowed">✓</span> Approved remote workers</li>
+                                <li><span class="policy-denied">✗</span> Non-corporate networks for sensitive data</li>
+                                <li><span class="policy-denied">✗</span> International access without approval</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-section">
                     <h3>Network & Security Policies</h3>
                     <div class="policy-grid">
                         <div class="policy-item">
@@ -51,3 +146,146 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="doc-section">
+                    <h3>Employee Access Matrix</h3>
+                    <div class="access-table">
+                        <table id="employeeTable">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Department</th>
+                                    <th>Role</th>
+                                    <th>Database Access</th>
+                                    <th>Admin Rights</th>
+                                    <th>Physical Access</th>
+                                    <th>Work Schedule</th>
+                                    <th>Remote Access</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Employee data will be loaded from employees.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investigation Tools Panel -->
+        <div class="tools-panel hidden" id="toolsPanel">
+            <div class="tools-content">
+                <button class="close-tools" onclick="toggleTools()">✕</button>
+                <h2>Investigation Tools</h2>
+                
+                <div class="tools-section">
+                    <h3>External Investigation Tools</h3>
+                    <div class="tool-links-external">
+                        <a href="https://www.abuseipdb.com/" target="_blank" class="tool-link-external">🔍 AbuseIPDB<br><small>IP Reputation Check</small></a>
+                        <a href="https://urlscan.io/" target="_blank" class="tool-link-external">🌐 URLScan.io<br><small>URL Analysis</small></a>
+                        <a href="https://www.virustotal.com/" target="_blank" class="tool-link-external">🦠 VirusTotal<br><small>File/Hash Analysis</small></a>
+                        <a href="https://www.shodan.io/" target="_blank" class="tool-link-external">📊 Shodan<br><small>IP Intelligence</small></a>
+                        <a href="https://www.urlvoid.com/" target="_blank" class="tool-link-external">🔗 URLVoid<br><small>Domain Reputation</small></a>
+                        <a href="https://otx.alienvault.com/" target="_blank" class="tool-link-external">📈 OTX AlienVault<br><small>Threat Intelligence</small></a>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 12px; color: #a0c4e0; text-align: center;">
+                        💡 Copy suspicious values from event details and paste them into these tools for investigation
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stats-left">
+                <div class="stat-item">
+                    <span>Total Events:</span>
+                    <span class="stat-value" id="totalEvents">25</span>
+                </div>
+                <div class="stat-item">
+                    <span>Analyzed:</span>
+                    <span class="stat-value" id="classifiedEvents">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Remaining:</span>
+                    <span class="stat-value" id="remainingEvents">25</span>
+                </div>
+                <div class="stat-item">
+                    <span>Time Remaining:</span>
+                    <span class="stat-value" id="timeRemaining">40:00</span>
+                </div>
+            </div>
+            <div>
+                <button class="new-session-btn" onclick="resetTraining()">🔄 New Training Session</button>
+            </div>
+        </div>
+
+        <!-- Content Area with Improved Layout -->
+        <div class="content-area">
+            <!-- Events List (55% width) -->
+            <div class="events-list">
+                <div class="events-container">
+                    <table class="events-table" id="eventTable">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Severity</th>
+                                <th>Event Type</th>
+                                <th>Description</th>
+                                <th>Source IP</th>
+                                <th>Destination</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventsTableBody">
+                            <!-- Events will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Event Details Panel (45% width with improved layout) -->
+            <div class="event-details-panel empty" id="eventDetailsPanel">
+                <div>
+                    <h3>Event Investigation</h3>
+                    <p>Select an event from the list to investigate</p>
+                    <br>
+                    <p><strong>Investigation Steps:</strong></p>
+                    <p>1. Analyze the event details and raw logs</p>
+                    <p>2. Use external tools to investigate suspicious elements</p>
+                    <p>3. Classify the event based on your findings</p>
+                    <br>
+                    <p><strong>Classification Options:</strong></p>
+                    <p>• <strong>Malicious</strong> - Confirmed threat requiring action</p>
+                    <p>• <strong>Suspicious</strong> - Potentially malicious activity</p>
+                    <p>• <strong>False Positive</strong> - Benign activity, no threat</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div class="results-modal hidden" id="resultsModal">
+            <div class="results-content">
+                <div class="results-title">Analysis Complete!</div>
+                <div class="score" id="finalScore">0/25</div>
+                <div class="results-details" id="resultsDetails">
+                    <!-- Results will be populated here -->
+                </div>
+                <button class="btn btn-success" onclick="resetTraining()">Start New Analysis Session</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="employees.js?v=3.0"></script>
+    <script src="event-templates.js?v=3.0"></script>
+    <script src="script.js?v=3.2"></script>
+    <script>
+        // Ensure employee table is populated when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof populateEmployeeTable === 'function') {
+                populateEmployeeTable();
+            }
+        });
+    </script>
+</body>
+</html>
