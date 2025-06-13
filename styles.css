@@ -87,7 +87,7 @@ body {
 /* Investigation Tools Tab */
 .tools-tab {
     position: fixed;
-    top: 200px;
+    top: 220px; /* Moved down from 200px to 220px */
     right: 0;
     z-index: 999;
 }
@@ -314,12 +314,21 @@ body {
     margin-right: 50%; /* Match panel width */
 }
 
+.content-area.panel-open .events-list {
+    width: 40%; /* Reduced from 55% to 40% when panel is open */
+}
+
+.content-area.panel-open .event-details-panel {
+    width: 60%; /* Increased from 45% to 60% when panel is open */
+}
+
 .events-list {
     width: 55%;
     background: #1a2332;
     border-right: 1px solid #3a5a7a;
     display: flex;
     flex-direction: column;
+    transition: width 0.3s ease; /* Smooth transition for width changes */
 }
 
 .events-container {
@@ -398,6 +407,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    transition: width 0.3s ease; /* Smooth transition for width changes */
 }
 
 .event-details-panel.empty {
