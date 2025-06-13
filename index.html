@@ -22,6 +22,11 @@
             <button class="docs-toggle" onclick="toggleDocs()">📋 Company Documentation</button>
         </div>
 
+        <!-- Investigation Tools Tab -->
+        <div class="tools-tab" id="toolsTab">
+            <button class="tools-toggle" onclick="toggleTools()">🔧 Investigation Tools</button>
+        </div>
+
         <!-- Company Documentation Panel -->
         <div class="docs-panel hidden" id="docsPanel">
             <div class="docs-content">
@@ -162,6 +167,29 @@
                                 <!-- Employee data will be loaded from employees.js -->
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investigation Tools Panel -->
+        <div class="tools-panel hidden" id="toolsPanel">
+            <div class="tools-content">
+                <button class="close-tools" onclick="toggleTools()">✕</button>
+                <h2>Investigation Tools</h2>
+                
+                <div class="tools-section">
+                    <h3>External Investigation Tools</h3>
+                    <div class="tool-links-external">
+                        <a href="https://www.abuseipdb.com/" target="_blank" class="tool-link-external">🔍 AbuseIPDB<br><small>IP Reputation Check</small></a>
+                        <a href="https://urlscan.io/" target="_blank" class="tool-link-external">🌐 URLScan.io<br><small>URL Analysis</small></a>
+                        <a href="https://www.virustotal.com/" target="_blank" class="tool-link-external">🦠 VirusTotal<br><small>File/Hash Analysis</small></a>
+                        <a href="https://www.shodan.io/" target="_blank" class="tool-link-external">📊 Shodan<br><small>IP Intelligence</small></a>
+                        <a href="https://www.urlvoid.com/" target="_blank" class="tool-link-external">🔗 URLVoid<br><small>Domain Reputation</small></a>
+                        <a href="https://otx.alienvault.com/" target="_blank" class="tool-link-external">📈 OTX AlienVault<br><small>Threat Intelligence</small></a>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 12px; color: #a0c4e0; text-align: center;">
+                        💡 Copy suspicious values from event details and paste them into these tools for investigation
                     </div>
                 </div>
             </div>

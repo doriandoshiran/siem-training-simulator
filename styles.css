@@ -543,6 +543,34 @@ body {
     font-size: 12px;
     word-break: break-all;
     border: 1px solid #3a5a7a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.field-value-content {
+    flex: 1;
+}
+
+.copy-icon {
+    margin-left: 8px;
+    cursor: pointer;
+    color: #4CAF50;
+    font-size: 14px;
+    opacity: 0.7;
+    transition: all 0.2s;
+    padding: 4px;
+    border-radius: 3px;
+}
+
+.copy-icon:hover {
+    opacity: 1;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.copy-icon.copied {
+    color: #4CAF50;
+    opacity: 1;
 }
 
 /* FULL-WIDTH FIELDS (for longer content) */
@@ -599,7 +627,7 @@ body {
     max-height: 250px;
 }
 
-/* Investigation Tools Styles for tools panel */
+/* Investigation Tools Styles for external panel */
 .tools-section {
     background: #2d4663;
     padding: 25px;
@@ -612,6 +640,36 @@ body {
     margin-bottom: 20px;
     border-bottom: 1px solid #3a5a7a;
     padding-bottom: 8px;
+}
+
+.tool-links-external {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tool-link-external {
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 15px;
+    background: #1a2332;
+    border-radius: 6px;
+    transition: background 0.2s;
+    text-align: center;
+    border: 1px solid #3a5a7a;
+}
+
+.tool-link-external:hover {
+    background: #3a5a7a;
+}
+
+.tool-link-external small {
+    display: block;
+    font-size: 10px;
+    color: #a0c4e0;
+    margin-top: 5px;
 }
 
 .results-modal {
@@ -704,17 +762,17 @@ body {
 }
 
 .selectable-text {
-    background: #3a5a7a;
-    padding: 3px 6px;
-    border-radius: 3px;
-    cursor: pointer;
-    user-select: all;
-    transition: all 0.2s;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    cursor: default;
+    user-select: text;
+    transition: none;
 }
 
 .selectable-text:hover {
-    background: #4CAF50;
-    color: #1a2332;
+    background: transparent;
+    color: inherit;
 }
 
 .copy-btn {
@@ -722,24 +780,11 @@ body {
 }
 
 .copy-btn:hover::after {
-    content: 'Click to copy';
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1a2332;
-    color: #4CAF50;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    white-space: nowrap;
-    z-index: 1000;
-    border: 1px solid #3a5a7a;
+    display: none;
 }
 
 .copy-success::after {
-    content: 'Copied!' !important;
-    color: #4CAF50 !important;
+    display: none;
 }
 
 .policy-allowed {
