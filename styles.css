@@ -120,7 +120,7 @@ body {
     height: 100vh;
     background: #1a2332;
     border-left: 2px solid #3a5a7a;
-    z-index: 998;
+    z-index: 1000; /* Higher z-index to prevent overlap */
     overflow-y: auto;
     transform: translateX(100%);
     transition: transform 0.3s ease;
@@ -396,14 +396,20 @@ body {
     overflow: hidden;
 }
 
+/* LEFT-ALIGNED TEXT FOR EVENT DETAILS PANEL */
 .event-details-panel.empty {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     color: #a0c4e0;
     font-style: italic;
-    text-align: center;
+    text-align: left;
     padding: 40px;
+}
+
+.event-details-panel.empty div {
+    text-align: left;
+    width: 100%;
 }
 
 /* SCROLLABLE CONTENT AREA */
