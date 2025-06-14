@@ -3,7 +3,7 @@ let trainingEvents = [];
 let selectedEventId = null;
 let classificationsComplete = 0;
 let timerInterval = null;
-let timeRemaining = 40 * 60;
+let timeRemaining = 60 * 60; // Changed from 40 * 60 to 60 * 60 (1 hour)
 
 function smartShuffle(events) {
     // First, do a basic shuffle
@@ -115,7 +115,7 @@ function initializeTraining() {
     trainingEvents = [];
     classificationsComplete = 0;
     selectedEventId = null;
-    timeRemaining = 40 * 60;
+    timeRemaining = 60 * 60; // Changed from 40 * 60 to 60 * 60 (1 hour)
 
     // Use each template exactly once - no duplicates
     const allMaliciousTemplates = [...eventTemplates.malicious];
@@ -627,4 +627,3 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('click', function(e) {
     // Removed old copy functionality since we now use individual copy icons
 });
-        
